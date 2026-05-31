@@ -3,7 +3,7 @@ import { TipoArticulo } from "@prisma/client";
 export const SITE_NAME = "Diario Castellano UFRO";
 export const SITE_DESCRIPTION =
   "Portal de noticias, opinión y cultura de la Carrera de Pedagogía en Castellano y Comunicación — Universidad de La Frontera, Temuco, Chile.";
-export const SITE_URL = process.env.AUTH_URL ?? "http://localhost:3000";
+export const SITE_URL = process.env.AUTH_URL ?? "https://diario-revista-castellanica.vercel.app";
 
 export const TIPO_ARTICULO_LABELS: Record<TipoArticulo, string> = {
   NOTICIA: "Noticias",
