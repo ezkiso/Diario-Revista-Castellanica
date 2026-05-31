@@ -128,6 +128,36 @@ export async function deleteContenidoRevista(id: string): Promise<ActionResult> 
   }
 }
 
+export async function updateContenidoRevista(
+  id: string,
+  formData: FormData
+): Promise<ActionResult> {
+  try {
+    await requireAuth();
+    const raw = Object.fromEntries(formData);
+    const parsed = contenidoRevistaSchema.safeParse(raw);
+    if (!parsed.success) {
+      return { success: false, error: parsed.error.errors[0]?.message };
+    }
+
+    const data = parsed.data;
+    await prisma.contenidoRevista.update({
+      where: { id },
+      data: {
+        titulo: data.titulo,
+        autor: data.autor,
+        contenido: sanitizeHtml(data.contenido),
+        imagen: data.imagen || null,
+      },
+    });
+
+    revalidateRevistaPaths();
+    return { success: true, id };
+  } catch (e) {
+    return { success: false, error: e instanceof Error ? e.message : "Error al actualizar contenido" };
+  }
+}
+
 function revalidateRevistaPaths() {
   revalidatePath("/revista-castellanica");
   revalidatePath("/admin");

@@ -3,19 +3,33 @@
 import { useState, useTransition, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { createContenidoRevista } from "@/actions/revistas";
+import { updateContenidoRevista } from "@/actions/revistas";
 import { RichTextEditor } from "@/components/editor/rich-text-editor";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Upload, X } from "lucide-react";
 
-export function ContenidoRevistaForm({ revistaId }: { revistaId: string }) {
+type EditarContenidoRevistaFormProps = {
+  contenido: {
+    id: string;
+    titulo: string;
+    autor: string;
+    imagen: string | null;
+    contenido: string;
+  };
+  onCancel: () => void;
+};
+
+export function EditarContenidoRevistaForm({
+  contenido,
+  onCancel,
+}: EditarContenidoRevistaFormProps) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
-  const [contenido, setContenido] = useState("");
+  const [contenidoHtml, setContenidoHtml] = useState(contenido.contenido);
   const [error, setError] = useState<string | null>(null);
-  const [imagenUrl, setImagenUrl] = useState("");
+  const [imagenUrl, setImagenUrl] = useState(contenido.imagen ?? "");
   const [uploadingImage, setUploadingImage] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -59,33 +73,56 @@ export function ContenidoRevistaForm({ revistaId }: { revistaId: string }) {
   };
 
   function handleSubmit(formData: FormData) {
-    formData.set("contenido", contenido);
-    formData.set("revistaId", revistaId);
+    formData.set("contenido", contenidoHtml);
     formData.set("imagen", imagenUrl);
+    formData.set("titulo", formData.get("titulo") as string);
+    formData.set("autor", formData.get("autor") as string);
+    formData.set("revistaId", ""); // No se usa en update
 
     startTransition(async () => {
-      const result = await createContenidoRevista(formData);
+      const result = await updateContenidoRevista(contenido.id, formData);
       if (!result.success) {
         setError(result.error ?? "Error");
         return;
       }
-      setContenido("");
-      setImagenUrl("");
       router.refresh();
+      onCancel();
     });
   }
 
   return (
-    <form action={handleSubmit} className="space-y-4 border p-4 rounded-lg bg-muted/20">
-      <h3 className="font-semibold">Agregar contenido literario</h3>
+    <form action={handleSubmit} className="space-y-4 border p-4 rounded-lg bg-blue-50/30">
+      <div className="flex justify-between items-center">
+        <h3 className="font-semibold">Editar contenido literario</h3>
+        <button
+          type="button"
+          onClick={onCancel}
+          className="text-xs text-muted-foreground hover:text-foreground"
+        >
+          Cancelar
+        </button>
+      </div>
+
       <div className="grid sm:grid-cols-2 gap-4">
         <div>
-          <Label htmlFor="titulo">Título</Label>
-          <Input id="titulo" name="titulo" required className="mt-1" />
+          <Label htmlFor={`titulo-${contenido.id}`}>Título</Label>
+          <Input
+            id={`titulo-${contenido.id}`}
+            name="titulo"
+            required
+            defaultValue={contenido.titulo}
+            className="mt-1"
+          />
         </div>
         <div>
-          <Label htmlFor="autor">Autor</Label>
-          <Input id="autor" name="autor" required className="mt-1" />
+          <Label htmlFor={`autor-${contenido.id}`}>Autor</Label>
+          <Input
+            id={`autor-${contenido.id}`}
+            name="autor"
+            required
+            defaultValue={contenido.autor}
+            className="mt-1"
+          />
         </div>
       </div>
 
@@ -116,14 +153,14 @@ export function ContenidoRevistaForm({ revistaId }: { revistaId: string }) {
         <div className="border-2 border-dashed rounded-lg p-4 bg-muted/20">
           <div className="flex flex-col gap-2">
             <Label
-              htmlFor="fileUploadContenido"
+              htmlFor={`fileUpload-${contenido.id}`}
               className="cursor-pointer flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
               <Upload className="h-4 w-4" />
               Hacer clic para subir una imagen
             </Label>
             <input
-              id="fileUploadContenido"
+              id={`fileUpload-${contenido.id}`}
               ref={fileInputRef}
               type="file"
               accept="image/*"
@@ -152,7 +189,7 @@ export function ContenidoRevistaForm({ revistaId }: { revistaId: string }) {
         </div>
 
         <Input
-          id="imagen"
+          id={`imagen-${contenido.id}`}
           name="imagen"
           type="text"
           placeholder="https://... o /uploads/..."
@@ -164,12 +201,27 @@ export function ContenidoRevistaForm({ revistaId }: { revistaId: string }) {
 
       <div>
         <Label>Contenido</Label>
-        <RichTextEditor value={contenido} onChange={setContenido} className="mt-1" />
+        <RichTextEditor
+          value={contenidoHtml}
+          onChange={setContenidoHtml}
+          className="mt-1"
+        />
       </div>
       {error && <p className="text-sm text-destructive">{error}</p>}
-      <Button type="submit" size="sm" disabled={pending || uploadingImage}>
-        {pending ? "Agregando…" : "Agregar texto"}
-      </Button>
+      <div className="flex gap-2">
+        <Button type="submit" size="sm" disabled={pending || uploadingImage}>
+          {pending ? "Guardando…" : "Guardar cambios"}
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={onCancel}
+          disabled={pending}
+        >
+          Cancelar
+        </Button>
+      </div>
     </form>
   );
 }

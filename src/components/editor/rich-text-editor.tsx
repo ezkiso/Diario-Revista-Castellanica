@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useState } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
@@ -33,6 +34,9 @@ export function RichTextEditor({
   placeholder = "Escriba el contenido aquí…",
   className,
 }: RichTextEditorProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -64,11 +68,41 @@ export function RichTextEditor({
     }
   };
 
-  const addImage = () => {
-    const url = window.prompt("URL de la imagen:");
-    if (url) {
-      editor.chain().focus().setImage({ src: url }).run();
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingImage(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || "Error al subir la imagen");
+      }
+
+      const data = await response.json();
+      editor.chain().focus().setImage({ src: data.url }).run();
+    } catch (error) {
+      console.error("Error al subir imagen:", error);
+      alert(error instanceof Error ? error.message : "Error al subir la imagen");
+    } finally {
+      setUploadingImage(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     }
+  };
+
+  const addImage = () => {
+    fileInputRef.current?.click();
   };
 
   const ToolbarButton = ({
@@ -89,6 +123,7 @@ export function RichTextEditor({
       className="h-8 w-8"
       onClick={onClick}
       aria-label={label}
+      disabled={uploadingImage}
     >
       {children}
     </Button>
@@ -142,7 +177,7 @@ export function RichTextEditor({
         <ToolbarButton onClick={addLink} label="Enlace">
           <LinkIcon className="h-4 w-4" />
         </ToolbarButton>
-        <ToolbarButton onClick={addImage} label="Imagen">
+        <ToolbarButton onClick={addImage} label={uploadingImage ? "Subiendo…" : "Imagen"}>
           <ImageIcon className="h-4 w-4" />
         </ToolbarButton>
         <ToolbarButton onClick={() => editor.chain().focus().undo().run()} label="Deshacer">
@@ -153,6 +188,15 @@ export function RichTextEditor({
         </ToolbarButton>
       </div>
       <EditorContent editor={editor} />
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleImageUpload}
+        disabled={uploadingImage}
+        className="hidden"
+        aria-label="Subir imagen"
+      />
     </div>
   );
 }

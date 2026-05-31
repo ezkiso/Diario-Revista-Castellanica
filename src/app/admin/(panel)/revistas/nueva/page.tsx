@@ -1,4 +1,4 @@
-import { RevistaForm } from "@/components/admin/revista-form";
+import { NuevaRevistaConContenido } from "@/components/admin/nueva-revista-con-contenido";
 import { requireAuth } from "@/lib/auth-utils";
 
 export default async function NuevaRevistaPage() {
@@ -6,7 +6,7 @@ export default async function NuevaRevistaPage() {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-6">Nueva revista anual</h1>
-      <RevistaForm />
+      <NuevaRevistaConContenido />
     </div>
   );
 }
