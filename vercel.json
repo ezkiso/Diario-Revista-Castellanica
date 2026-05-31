@@ -5,8 +5,8 @@
   "installCommand": "npm install",
   "regions": ["gru1"],
   "env": {
-    "DATABASE_URL": "@database_url",
-    "AUTH_SECRET": "@auth_secret",
-    "AUTH_URL": "@auth_url"
+    "DATABASE_URL": "@DATABASE_URL",
+    "AUTH_SECRET": "@AUTH_SECRET",
+    "AUTH_URL": "@AUTH_URL"
   }
 }
