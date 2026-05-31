@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
-import { join } from "path";
+import { put } from "@vercel/blob";
 import { auth } from "@/auth";
 
 export async function POST(request: NextRequest) {
@@ -43,17 +42,14 @@ export async function POST(request: NextRequest) {
     // Generar nombre único
     const ext = file.name.split(".").pop() || "jpg";
     const filename = `${Date.now()}-${Math.random().toString(36).substring(7)}.${ext}`;
-    const filepath = join(process.cwd(), "public", "uploads", filename);
     
-    // Crear directorio si no existe
-    await mkdir(join(process.cwd(), "public", "uploads"), { recursive: true });
-    
-    // Guardar archivo
-    await writeFile(filepath, buffer);
+    // Subir a Vercel Blob
+    const blob = await put(filename, buffer, {
+      access: 'public',
+    });
 
-    // Retornar URL relativa
-    const imageUrl = `/uploads/${filename}`;
-    return NextResponse.json({ url: imageUrl });
+    // Retornar URL
+    return NextResponse.json({ url: blob.url });
   } catch (error) {
     console.error("Error al subir imagen:", error);
     return NextResponse.json(
