@@ -1,0 +1,6 @@
+# Directorio para imágenes subidas
+# Las imágenes se guardan aquí en desarrollo
+# En producción con Vercel, usar BLOB_READ_WRITE_TOKEN
+
+*
+!.gitignore

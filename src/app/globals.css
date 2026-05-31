@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 20% 98%;
+    --foreground: 0 0% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+    --primary: 348 83% 42%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 100% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 40 10% 94%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 45 55% 50%;
+    --accent-foreground: 0 0% 10%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 88%;
+    --input: 0 0% 88%;
+    --ring: 348 83% 42%;
+    --radius: 0.25rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+}
+
+@layer components {
+  .prose-article {
+    @apply max-w-none text-ufro-ink leading-relaxed;
+  }
+  .prose-article h1 {
+    @apply text-3xl font-serif font-bold mt-8 mb-4;
+  }
+  .prose-article h2 {
+    @apply text-2xl font-serif font-bold mt-6 mb-3;
+  }
+  .prose-article h3 {
+    @apply text-xl font-serif font-semibold mt-4 mb-2;
+  }
+  .prose-article p {
+    @apply mb-4 text-lg;
+  }
+  .prose-article ul,
+  .prose-article ol {
+    @apply mb-4 ml-6 list-disc;
+  }
+  .prose-article ol {
+    @apply list-decimal;
+  }
+  .prose-article blockquote {
+    @apply border-l-4 border-ufro-red pl-4 italic text-muted-foreground my-6;
+  }
+  .prose-article a {
+    @apply text-ufro-blue underline hover:text-ufro-red transition-colors;
+  }
+  .prose-article img {
+    @apply rounded my-6 max-w-full h-auto;
+  }
+  .prose-article strong {
+    @apply font-semibold;
+  }
+}

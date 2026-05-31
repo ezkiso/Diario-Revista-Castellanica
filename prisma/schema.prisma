@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Rol {
+  ADMIN
+  EDITOR
+}
+
+enum TipoArticulo {
+  NOTICIA
+  OPINION
+  CARTA_DIRECTOR
+  DIFUSION
+}
+
+model User {
+  id           String    @id @default(cuid())
+  nombre       String
+  email        String    @unique
+  passwordHash String
+  rol          Rol       @default(EDITOR)
+  createdAt    DateTime  @default(now())
+  articulos    Articulo[]
+
+  @@map("users")
+}
+
+model Articulo {
+  id                String         @id @default(cuid())
+  titulo            String
+  slug              String         @unique
+  resumen           String         @db.Text
+  contenido         String         @db.Text
+  imagenDestacada   String?
+  tipo              TipoArticulo
+  fechaPublicacion  DateTime
+  publicado         Boolean        @default(false)
+  autorId           String
+  autor             User           @relation(fields: [autorId], references: [id], onDelete: Restrict)
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+
+  @@index([tipo, publicado, fechaPublicacion])
+  @@index([slug])
+  @@map("articulos")
+}
+
+model Revista {
+  id          String             @id @default(cuid())
+  nombre      String
+  anio        Int                @unique
+  descripcion String             @db.Text
+  portada     String?
+  publicada   Boolean            @default(false)
+  createdAt   DateTime           @default(now())
+  contenidos  ContenidoRevista[]
+
+  @@map("revistas")
+}
+
+model ContenidoRevista {
+  id        String   @id @default(cuid())
+  titulo    String
+  autor     String
+  contenido String   @db.Text
+  imagen    String?
+  revistaId String
+  revista   Revista  @relation(fields: [revistaId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([revistaId])
+  @@map("contenidos_revista")
+}
