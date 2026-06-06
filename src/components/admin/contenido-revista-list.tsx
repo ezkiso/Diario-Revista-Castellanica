@@ -1,6 +1,8 @@
+// src/components/admin/contenido-revista-list.tsx
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { ContenidoRevista } from "@prisma/client";
 import { EditarContenidoRevistaForm } from "@/components/admin/editar-contenido-revista-form";
 import { DeleteContenidoButton } from "@/components/admin/delete-contenido-button";
@@ -46,11 +48,13 @@ export function ContenidoRevistaList({ contenidos }: ContenidoRevistaListProps) 
             </div>
             <ArticleContent html={c.contenido} />
             {c.imagen && (
-              <div className="mt-3">
-                <img
+              <div className="relative mt-3 w-80 h-52">
+                <Image
                   src={c.imagen}
                   alt={c.titulo}
-                  className="max-w-sm rounded-lg"
+                  fill
+                  className="rounded-lg object-cover"
+                  unoptimized
                 />
               </div>
             )}

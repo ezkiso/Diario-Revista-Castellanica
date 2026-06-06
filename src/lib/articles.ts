@@ -1,3 +1,5 @@
+// src/lib/articles.ts — versión corregida (agrega updatedAt al select)
+
 import { TipoArticulo, type Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 
@@ -10,6 +12,7 @@ export const publishedArticleSelect = {
   imagenDestacada: true,
   tipo: true,
   fechaPublicacion: true,
+  updatedAt: true,      // ← AÑADIDO
   publicado: true,
   createdAt: true,
   autor: {

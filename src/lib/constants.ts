@@ -29,3 +29,17 @@ export const NAV_LINKS = [
 
 export const PLACEHOLDER_IMAGE =
   "https://images.unsplash.com/photo-1504711434966-e33886168f5c?w=800&q=80";
+
+  export const TIPO_LABELS: Record<TipoArticulo, string> = {
+    NOTICIA:        "Noticias",
+    OPINION:        "Columnas de Opinión",
+    CARTA_DIRECTOR: "Cartas al Director",
+    DIFUSION:       "Difusión",
+  };
+
+  export const TIPO_HREFS: Record<TipoArticulo, string> = {
+    NOTICIA:        "/noticias",
+    OPINION:        "/opinion",
+    CARTA_DIRECTOR: "/cartas-al-director",
+    DIFUSION:       "/difusion",
+  };

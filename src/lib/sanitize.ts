@@ -19,8 +19,6 @@ const ALLOWED_TAGS = [
   "hr",
 ];
 
-const ALLOWED_ATTR = ["href", "src", "alt", "title", "target", "rel", "class"];
-
 export function sanitizeHtml(dirty: string): string {
   return sanitize(dirty, {
     allowedTags: ALLOWED_TAGS,
