@@ -1,4 +1,5 @@
 export const dynamic = "force-dynamic";
+export const revalidate = 300; // Revalidar cada 5 minutos
 
 import { ArticleCard } from "@/components/articles/article-card";
 import { HeroArticle } from "@/components/articles/hero-article";

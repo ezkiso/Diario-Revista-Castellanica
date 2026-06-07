@@ -128,6 +128,7 @@ export default function RootLayout({
                 <li key={href}>
                   <Link
                     href={href}
+                    prefetch={true}
                     className="block text-xs text-gray-600 hover:text-ufro-red px-3 py-3.5
                                hover:bg-gray-50 transition-colors font-medium whitespace-nowrap
                                border-b-2 border-transparent hover:border-ufro-red"

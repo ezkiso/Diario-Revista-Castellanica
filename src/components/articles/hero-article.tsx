@@ -25,6 +25,7 @@ export function HeroArticle({
 }: HeroArticleProps) {
   const href = `/articulo/${slug}`;
   const imageSrc = imagenDestacada || PLACEHOLDER_IMAGE;
+  const fecha = typeof fechaPublicacion === 'string' ? new Date(fechaPublicacion) : fechaPublicacion;
 
   return (
     <section className="mb-10" aria-labelledby="noticia-principal">
@@ -51,10 +52,10 @@ export function HeroArticle({
           </h3>
           <p className="text-lg text-muted-foreground mb-6 line-clamp-4">{resumen}</p>
           <time
-            dateTime={fechaPublicacion.toISOString()}
+            dateTime={fecha.toISOString()}
             className="text-sm text-muted-foreground"
           >
-            {format(fechaPublicacion, "EEEE d 'de' MMMM yyyy · HH:mm 'hrs'", {
+            {format(fecha, "EEEE d 'de' MMMM yyyy · HH:mm 'hrs'", {
               locale: es,
             })}
           </time>

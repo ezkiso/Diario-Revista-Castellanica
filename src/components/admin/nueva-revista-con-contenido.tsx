@@ -509,11 +509,12 @@ export function NuevaRevistaConContenido() {
                   </button>
                 </div>
                 {c.imagen && (
-                  <div className="mt-2">
-                    <img
+                  <div className="mt-2 relative max-w-xs max-h-32">
+                    <Image
                       src={c.imagen}
                       alt={c.titulo}
-                      className="max-w-xs rounded-lg max-h-32 object-cover"
+                      fill
+                      className="rounded-lg object-cover"
                     />
                   </div>
                 )}

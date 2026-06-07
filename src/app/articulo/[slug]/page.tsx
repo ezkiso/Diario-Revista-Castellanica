@@ -1,4 +1,5 @@
 export const dynamic = "force-dynamic";
+export const revalidate = 600; // Revalidar cada 10 minutos
 
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -16,7 +17,6 @@ import {
   SITE_NAME,
   SITE_URL,
   TIPO_ARTICULO_LABELS,
-  TIPO_ARTICULO_ROUTES,
 } from "@/lib/constants";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -27,6 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!article) return { title: "Artículo no encontrado" };
 
   const url = `${SITE_URL}/articulo/${slug}`;
+  const fechaPublicacion = typeof article.fechaPublicacion === 'string' ? new Date(article.fechaPublicacion) : article.fechaPublicacion;
 
   return {
     title: article.titulo,
@@ -35,7 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: article.titulo,
       description: article.resumen,
       type: "article",
-      publishedTime: article.fechaPublicacion.toISOString(),
+      publishedTime: fechaPublicacion.toISOString(),
       authors: [article.autor.nombre],
       images: article.imagenDestacada ? [article.imagenDestacada] : undefined,
       url,
@@ -56,6 +57,8 @@ export default async function ArticuloPage({ params }: Props) {
 
   const related = await getRelatedArticles(article.tipo, slug);
   const imageSrc = article.imagenDestacada || PLACEHOLDER_IMAGE;
+  const fechaPublicacion = typeof article.fechaPublicacion === 'string' ? new Date(article.fechaPublicacion) : article.fechaPublicacion;
+  const updatedAt = typeof article.updatedAt === 'string' ? new Date(article.updatedAt) : article.updatedAt;
 
   return (
     <>
@@ -77,8 +80,8 @@ export default async function ArticuloPage({ params }: Props) {
             <span>
               Por <strong className="text-foreground">{article.autor.nombre}</strong>
             </span>
-            <time dateTime={article.fechaPublicacion.toISOString()}>
-              {format(article.fechaPublicacion, "d 'de' MMMM yyyy · HH:mm 'hrs'", {
+            <time dateTime={fechaPublicacion.toISOString()}>
+              {format(fechaPublicacion, "d 'de' MMMM yyyy · HH:mm 'hrs'", {
                 locale: es,
               })}
             </time>

@@ -1,18 +1,44 @@
 import { NextRequest, NextResponse } from "next/server";
 import { put } from "@vercel/blob";
 import { auth } from "@/auth";
+import Redis from "ioredis";
 
-// Simple in-memory rate limiting (for production, use Redis or similar)
+// Redis client for rate limiting
+const redis = process.env.REDIS_URL 
+  ? new Redis(process.env.REDIS_URL, {
+      tls: process.env.REDIS_URL.startsWith('rediss://') ? {} : undefined,
+      maxRetriesPerRequest: 3,
+    })
+  : null;
+
+// Fallback to in-memory if Redis is not configured
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
 const RATE_LIMIT_MAX = 10;
-const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+const RATE_LIMIT_WINDOW = 60; // 60 seconds
 
-function checkRateLimit(userId: string): boolean {
+async function checkRateLimit(userId: string): Promise<boolean> {
+  if (redis) {
+    try {
+      const key = `ratelimit:upload:${userId}`;
+      const count = await redis.incr(key);
+      
+      if (count === 1) {
+        await redis.expire(key, RATE_LIMIT_WINDOW);
+      }
+      
+      return count <= RATE_LIMIT_MAX;
+    } catch (error) {
+      console.error("Redis error, falling back to in-memory:", error);
+      // Fallback to in-memory on Redis error
+    }
+  }
+  
+  // In-memory fallback
   const now = Date.now();
   const userLimit = rateLimitMap.get(userId);
 
   if (!userLimit || now > userLimit.resetTime) {
-    rateLimitMap.set(userId, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
+    rateLimitMap.set(userId, { count: 1, resetTime: now + RATE_LIMIT_WINDOW * 1000 });
     return true;
   }
 

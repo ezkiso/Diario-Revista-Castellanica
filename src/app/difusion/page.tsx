@@ -1,4 +1,5 @@
 export const dynamic = "force-dynamic";
+export const revalidate = 300; // Revalidar cada 5 minutos
 
 import type { Metadata } from "next";
 import { TipoArticulo } from "@prisma/client";
