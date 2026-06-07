@@ -16,10 +16,3 @@ export const prisma =
   });
 
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
-
-// Manejo de conexiones en producción
-if (process.env.NODE_ENV === "production") {
-  prisma.$connect().catch((error) => {
-    console.error("Error connecting to database:", error);
-  });
-}
