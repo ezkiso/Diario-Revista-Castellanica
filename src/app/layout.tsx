@@ -25,7 +25,7 @@ const sans = Inter({
 
 // ─── Metadata global ──────────────────────────────────────────────────────────
 
-const OG_IMAGE = `${SITE_URL}/og-image.jpeg`;
+const OG_IMAGE = `${SITE_URL}/og-image.png`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
