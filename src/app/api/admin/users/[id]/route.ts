@@ -53,7 +53,7 @@ export async function DELETE(
 
     if (articulosCount > 0) {
       return NextResponse.json(
-        { error: "No se puede eliminar un usuario que tiene artículos asociados" },
+        { error: `No se puede eliminar este usuario porque tiene ${articulosCount} artículo(s) asociado(s). Primero debes eliminar o reasignar los artículos.` },
         { status: 400 }
       );
     }
