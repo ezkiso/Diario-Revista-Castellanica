@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
+import { memo } from "react";
 import type { TipoArticulo } from "@prisma/client";
 import { Badge } from "@/components/ui/badge";
 import { PLACEHOLDER_IMAGE, TIPO_ARTICULO_LABELS } from "@/lib/constants";
@@ -15,7 +16,7 @@ type HeroArticleProps = {
   tipo: TipoArticulo;
 };
 
-export function HeroArticle({
+function HeroArticleComponent({
   slug,
   titulo,
   resumen,
@@ -64,3 +65,5 @@ export function HeroArticle({
     </section>
   );
 }
+
+export const HeroArticle = memo(HeroArticleComponent);

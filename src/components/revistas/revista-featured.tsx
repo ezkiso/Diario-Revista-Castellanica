@@ -1,12 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
+import { memo } from "react";
 import type { Revista } from "@prisma/client";
 
 type RevistaFeaturedProps = {
   revista: Revista & { _count: { contenidos: number } };
 };
 
-export function RevistaFeatured({ revista }: RevistaFeaturedProps) {
+function RevistaFeaturedComponent({ revista }: RevistaFeaturedProps) {
   if (!revista) return null;
 
   return (
@@ -46,3 +47,5 @@ export function RevistaFeatured({ revista }: RevistaFeaturedProps) {
     </Link>
   );
 }
+
+export const RevistaFeatured = memo(RevistaFeaturedComponent);

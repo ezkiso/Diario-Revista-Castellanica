@@ -49,6 +49,9 @@ model Articulo {
 
   @@index([tipo, publicado, fechaPublicacion])
   @@index([slug])
+  @@index([autorId])
+  @@index([publicado, fechaPublicacion])
+  @@index([createdAt])
   @@map("articulos")
 }
 
@@ -62,6 +65,7 @@ model Revista {
   createdAt   DateTime           @default(now())
   contenidos  ContenidoRevista[]
 
+  @@index([publicada, createdAt])
   @@map("revistas")
 }
 

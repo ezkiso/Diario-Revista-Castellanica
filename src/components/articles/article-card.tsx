@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
+import { memo } from "react";
 import type { TipoArticulo } from "@prisma/client";
 import { Badge } from "@/components/ui/badge";
 import { PLACEHOLDER_IMAGE, TIPO_ARTICULO_LABELS } from "@/lib/constants";
@@ -15,7 +16,7 @@ type ArticleCardProps = {
   tipo: TipoArticulo;
 };
 
-export function ArticleCard({
+function ArticleCardComponent({
   slug,
   titulo,
   resumen,
@@ -61,3 +62,5 @@ export function ArticleCard({
     </article>
   );
 }
+
+export const ArticleCard = memo(ArticleCardComponent);

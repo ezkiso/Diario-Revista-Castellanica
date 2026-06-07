@@ -5,12 +5,13 @@ import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { LayoutDashboard, FileText, BookOpen, LogOut } from "lucide-react";
+import { LayoutDashboard, FileText, BookOpen, Users, LogOut } from "lucide-react";
 
 const links = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/articulos", label: "Artículos", icon: FileText },
   { href: "/admin/revistas", label: "Revistas", icon: BookOpen },
+  { href: "/admin/usuarios", label: "Usuarios", icon: Users },
 ];
 
 export function AdminNav() {

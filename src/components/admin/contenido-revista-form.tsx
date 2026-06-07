@@ -4,7 +4,14 @@ import { useState, useTransition, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { createContenidoRevista } from "@/actions/revistas";
-import { RichTextEditor } from "@/components/editor/rich-text-editor";
+import dynamic from "next/dynamic";
+const RichTextEditor = dynamic(
+  () => import("@/components/editor/rich-text-editor").then(mod => ({ default: mod.RichTextEditor })),
+  { 
+    loading: () => <p className="text-sm text-muted-foreground">Cargando editor...</p>,
+    ssr: false 
+  }
+);
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

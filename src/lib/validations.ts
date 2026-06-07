@@ -1,4 +1,4 @@
-import { TipoArticulo } from "@prisma/client";
+import { TipoArticulo, Rol } from "@prisma/client";
 import { z } from "zod";
 
 // Validador personalizado para URLs o rutas relativas de imágenes
@@ -15,6 +15,43 @@ export const loginSchema = z.object({
   email: z.string().email("Email inválido"),
   password: z.string().min(8, "Mínimo 8 caracteres"),
 });
+
+// Validación de password fuerte para seguridad
+const strongPassword = z
+  .string()
+  .min(12, "Mínimo 12 caracteres")
+  .regex(/[A-Z]/, "Debe contener al menos una mayúscula")
+  .regex(/[a-z]/, "Debe contener al menos una minúscula")
+  .regex(/[0-9]/, "Debe contener al menos un número")
+  .regex(/[^A-Za-z0-9]/, "Debe contener al menos un carácter especial");
+
+export const createUserSchema = z.object({
+  email: z
+    .string()
+    .email("Email inválido")
+    .toLowerCase()
+    .trim()
+    .refine((email) => {
+      // Validación adicional para prevenir emails comunes de servicios temporales
+      const tempEmailDomains = [
+        "tempmail.com",
+        "throwaway.com",
+        "guerrillamail.com",
+        "mailinator.com",
+      ];
+      const domain = email.split("@")[1];
+      return !tempEmailDomains.includes(domain);
+    }, "No se permiten emails de servicios temporales"),
+  password: strongPassword,
+  nombre: z
+    .string()
+    .min(2, "Mínimo 2 caracteres")
+    .max(100, "Máximo 100 caracteres")
+    .trim(),
+  rol: z.nativeEnum(Rol),
+});
+
+export type CreateUserInput = z.infer<typeof createUserSchema>;
 
 export const articuloSchema = z.object({
   titulo: z.string().min(5, "Mínimo 5 caracteres").max(200),

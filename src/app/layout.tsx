@@ -15,12 +15,14 @@ const serif = Lora({
   subsets: ["latin"],
   variable: "--font-serif",
   display: "swap",
+  preload: true,
 });
 
 const sans = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
+  preload: true,
 });
 
 // ─── Metadata global ──────────────────────────────────────────────────────────

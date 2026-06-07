@@ -7,6 +7,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
+    unoptimized: true, // Deshabilitar optimización globalmente para evitar timeouts con Vercel Blob
     remotePatterns: [
       // Vercel Blob (tus imágenes subidas)
       {
@@ -22,6 +23,10 @@ const nextConfig: NextConfig = {
       // { protocol: "https", hostname: "ejemplo.com" },
     ],
   },
+  // Optimización de rendimiento
+  compress: true, // Habilitar compresión gzip
+  // Optimización de producción
+  productionBrowserSourceMaps: false, // Deshabilitar source maps en producción para reducir bundle size
   experimental: {
     serverActions: {
       bodySizeLimit: "4mb",
@@ -63,6 +68,26 @@ const nextConfig: NextConfig = {
           {
             key: "Content-Security-Policy",
             value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: *.unsplash.com *.vercel-storage.com; font-src 'self'; connect-src 'self' https:; frame-src 'self';"
+          }
+        ]
+      },
+      // Headers de caché para assets estáticos
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable"
+          }
+        ]
+      },
+      // Headers de caché para imágenes
+      {
+        source: "/images/(.*)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable"
           }
         ]
       }

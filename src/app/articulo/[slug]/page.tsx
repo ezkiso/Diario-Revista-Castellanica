@@ -122,7 +122,7 @@ export default async function ArticuloPage({ params }: Props) {
               "@type": "NewsArticle",
               headline: article.titulo,
               description: article.resumen,
-              datePublished: article.fechaPublicacion.toISOString(),
+              datePublished: fechaPublicacion.toISOString(),
               author: { "@type": "Person", name: article.autor.nombre },
               publisher: { "@type": "Organization", name: SITE_NAME },
               image: imageSrc,
