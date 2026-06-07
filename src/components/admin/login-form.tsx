@@ -31,8 +31,9 @@ export function LoginForm() {
       setError("Credenciales incorrectas");
       return;
     }
-    router.push(callbackUrl);
-    router.refresh();
+    
+    // Usar window.location para forzar una recarga completa
+    window.location.href = callbackUrl;
   }
 
   return (
