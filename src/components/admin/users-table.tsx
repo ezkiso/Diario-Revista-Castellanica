@@ -27,9 +27,10 @@ type User = {
 
 type UsersTableProps = {
   users: User[];
+  currentUserId: string;
 };
 
-export function UsersTable({ users }: UsersTableProps) {
+export function UsersTable({ users, currentUserId }: UsersTableProps) {
   const router = useRouter();
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [showDialog, setShowDialog] = useState(false);
@@ -104,15 +105,22 @@ export function UsersTable({ users }: UsersTableProps) {
                   {format(user.createdAt, "d MMM yyyy", { locale: es })}
                 </td>
                 <td className="p-3">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => openDeleteDialog(user.id)}
-                    className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                    title="Eliminar usuario"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+                  {user.id !== currentUserId && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => openDeleteDialog(user.id)}
+                      className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                      title="Eliminar usuario"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  )}
+                  {user.id === currentUserId && (
+                    <span className="text-xs text-muted-foreground italic">
+                      (Tú)
+                    </span>
+                  )}
                 </td>
               </tr>
             ))}

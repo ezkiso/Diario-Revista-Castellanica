@@ -5,9 +5,10 @@ import { prisma } from "@/lib/prisma";
 import { CreateUserForm } from "@/components/admin/create-user-form";
 import { UsersTable } from "@/components/admin/users-table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { auth } from "@/auth";
 
 export default async function AdminUsuariosPage() {
-  await requireAdmin();
+  const session = await requireAdmin();
 
   const users = await prisma.user.findMany({
     select: {
@@ -47,7 +48,7 @@ export default async function AdminUsuariosPage() {
             <CardTitle>Usuarios existentes</CardTitle>
           </CardHeader>
           <CardContent>
-            <UsersTable users={users} />
+            <UsersTable users={users} currentUserId={session.user.id} />
           </CardContent>
         </Card>
       </div>
