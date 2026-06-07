@@ -54,7 +54,7 @@ async function checkRateLimit(userId: string): Promise<boolean> {
 }
 
 // GET /api/admin/users - Listar usuarios (solo ADMIN)
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const session = await auth();
     if (!session?.user?.id) {

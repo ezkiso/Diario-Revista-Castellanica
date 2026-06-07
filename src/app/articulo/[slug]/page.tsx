@@ -58,7 +58,6 @@ export default async function ArticuloPage({ params }: Props) {
   const related = await getRelatedArticles(article.tipo, slug);
   const imageSrc = article.imagenDestacada || PLACEHOLDER_IMAGE;
   const fechaPublicacion = typeof article.fechaPublicacion === 'string' ? new Date(article.fechaPublicacion) : article.fechaPublicacion;
-  const updatedAt = typeof article.updatedAt === 'string' ? new Date(article.updatedAt) : article.updatedAt;
 
   return (
     <>

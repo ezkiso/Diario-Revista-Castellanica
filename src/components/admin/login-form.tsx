@@ -32,8 +32,8 @@ export function LoginForm() {
       return;
     }
     
-    // Usar window.location para forzar una recarga completa
-    window.location.href = callbackUrl;
+    router.push(callbackUrl);
+    router.refresh();
   }
 
   return (

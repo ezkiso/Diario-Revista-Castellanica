@@ -1,11 +1,8 @@
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
 import { requireAdmin } from "@/lib/auth-utils";
 import { prisma } from "@/lib/prisma";
 import { CreateUserForm } from "@/components/admin/create-user-form";
 import { UsersTable } from "@/components/admin/users-table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { auth } from "@/auth";
 
 export default async function AdminUsuariosPage() {
   const session = await requireAdmin();

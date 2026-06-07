@@ -56,7 +56,7 @@ export function CreateUserForm({ canCreateAdmin }: CreateUserFormProps) {
       setSuccess("Usuario creado exitosamente");
       formRef.current?.reset();
       router.refresh();
-    } catch (err) {
+    } catch {
       setError("Error de conexión");
     } finally {
       setLoading(false);

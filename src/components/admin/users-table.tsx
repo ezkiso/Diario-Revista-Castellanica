@@ -57,7 +57,7 @@ export function UsersTable({ users, currentUserId }: UsersTableProps) {
       setShowDialog(false);
       setDeletingId(null);
       router.refresh();
-    } catch (err) {
+    } catch {
       setError("Error de conexión");
     } finally {
       setLoading(false);
