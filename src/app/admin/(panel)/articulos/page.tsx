@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { requireAuth } from "@/lib/auth-utils";
 import { prisma } from "@/lib/prisma";
 import { TIPO_ARTICULO_LABELS } from "@/lib/constants";
+import { ToggleArticuloStatusButton } from "@/components/admin/toggle-articulo-status-button";
 
 export default async function AdminArticulosPage() {
   await requireAuth();
@@ -30,6 +31,7 @@ export default async function AdminArticulosPage() {
               <th className="text-left p-3">Título</th>
               <th className="text-left p-3">Tipo</th>
               <th className="text-left p-3">Estado</th>
+              <th className="text-left p-3">Acciones</th>
               <th className="text-left p-3">Fecha pub.</th>
               <th className="text-left p-3">Autor</th>
             </tr>
@@ -54,6 +56,9 @@ export default async function AdminArticulosPage() {
                   >
                     {a.publicado ? "Publicado" : "Borrador"}
                   </span>
+                </td>
+                <td className="p-3">
+                  <ToggleArticuloStatusButton id={a.id} publicado={a.publicado} />
                 </td>
                 <td className="p-3 text-muted-foreground">
                   {format(a.fechaPublicacion, "d MMM yyyy HH:mm", { locale: es })}

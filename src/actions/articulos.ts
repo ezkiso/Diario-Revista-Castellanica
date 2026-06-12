@@ -2,10 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
-import { prisma } from "@/lib/prisma";
-import { generateSlug } from "@/lib/slug";
-import { sanitizeHtml } from "@/lib/sanitize";
-import { articuloSchema } from "@/lib/validations";
+import { ArticuloService } from "@/lib/services/ArticuloService";
+import { TipoArticulo } from "@prisma/client";
 
 type ActionResult = { success: boolean; error?: string; id?: string };
 
@@ -15,37 +13,25 @@ async function getSessionUserId() {
   return session.user.id;
 }
 
+const service = new ArticuloService();
+
 export async function createArticulo(
   formData: FormData
 ): Promise<ActionResult> {
   try {
     const userId = await getSessionUserId();
     const raw = Object.fromEntries(formData);
-    const parsed = articuloSchema.safeParse({
-      ...raw,
+
+    const articulo = await service.create({
+      titulo: raw.titulo as string,
+      resumen: raw.resumen as string,
+      contenido: raw.contenido as string,
+      imagenDestacada: raw.imagenDestacada as string || undefined,
+      tipo: raw.tipo as TipoArticulo,
+      fechaPublicacion: new Date(raw.fechaPublicacion as string),
       publicado: raw.publicado === "true" || raw.publicado === "on",
-    });
-    if (!parsed.success) {
-      return { success: false, error: parsed.error.errors[0]?.message };
-    }
-
-    const data = parsed.data;
-    let slug = data.slug?.trim() || generateSlug(data.titulo);
-    const existing = await prisma.articulo.findUnique({ where: { slug } });
-    if (existing) slug = `${slug}-${Date.now()}`;
-
-    const articulo = await prisma.articulo.create({
-      data: {
-        titulo: data.titulo,
-        slug,
-        resumen: data.resumen,
-        contenido: sanitizeHtml(data.contenido),
-        imagenDestacada: data.imagenDestacada || null,
-        tipo: data.tipo,
-        fechaPublicacion: new Date(data.fechaPublicacion),
-        publicado: data.publicado,
-        autorId: userId,
-      },
+      autorId: userId,
+      slug: raw.slug as string || undefined,
     });
 
     revalidatePaths();
@@ -62,29 +48,16 @@ export async function updateArticulo(
   try {
     await getSessionUserId();
     const raw = Object.fromEntries(formData);
-    const parsed = articuloSchema.safeParse({
-      ...raw,
+
+    await service.update(id, {
+      titulo: raw.titulo as string,
+      resumen: raw.resumen as string,
+      contenido: raw.contenido as string,
+      imagenDestacada: raw.imagenDestacada as string || undefined,
+      tipo: raw.tipo as TipoArticulo,
+      fechaPublicacion: new Date(raw.fechaPublicacion as string),
       publicado: raw.publicado === "true" || raw.publicado === "on",
-    });
-    if (!parsed.success) {
-      return { success: false, error: parsed.error.errors[0]?.message };
-    }
-
-    const data = parsed.data;
-    const slug = data.slug?.trim() || generateSlug(data.titulo);
-
-    await prisma.articulo.update({
-      where: { id },
-      data: {
-        titulo: data.titulo,
-        slug,
-        resumen: data.resumen,
-        contenido: sanitizeHtml(data.contenido),
-        imagenDestacada: data.imagenDestacada || null,
-        tipo: data.tipo,
-        fechaPublicacion: new Date(data.fechaPublicacion),
-        publicado: data.publicado,
-      },
+      slug: raw.slug as string || undefined,
     });
 
     revalidatePaths();
@@ -97,11 +70,33 @@ export async function updateArticulo(
 export async function deleteArticulo(id: string): Promise<ActionResult> {
   try {
     await getSessionUserId();
-    await prisma.articulo.delete({ where: { id } });
+    await service.delete(id);
     revalidatePaths();
     return { success: true };
   } catch (e) {
     return { success: false, error: e instanceof Error ? e.message : "Error al eliminar" };
+  }
+}
+
+export async function publicarArticulo(id: string): Promise<ActionResult> {
+  try {
+    const userId = await getSessionUserId();
+    await service.publicar(id, userId);
+    revalidatePaths();
+    return { success: true };
+  } catch (e) {
+    return { success: false, error: e instanceof Error ? e.message : "Error al publicar" };
+  }
+}
+
+export async function borradorArticulo(id: string): Promise<ActionResult> {
+  try {
+    await getSessionUserId();
+    await service.borrador(id);
+    revalidatePaths();
+    return { success: true };
+  } catch (e) {
+    return { success: false, error: e instanceof Error ? e.message : "Error al pasar a borrador" };
   }
 }
 
