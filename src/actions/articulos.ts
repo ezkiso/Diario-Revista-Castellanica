@@ -3,14 +3,17 @@
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { ArticuloService } from "@/lib/services/ArticuloService";
-import { TipoArticulo } from "@prisma/client";
+import { TipoArticulo, Rol } from "@prisma/client";
 
 type ActionResult = { success: boolean; error?: string; id?: string };
 
-async function getSessionUserId() {
+async function getSessionUser() {
   const session = await auth();
   if (!session?.user?.id) throw new Error("No autorizado");
-  return session.user.id;
+  return {
+    id: session.user.id,
+    rol: session.user.rol as Rol,
+  };
 }
 
 const service = new ArticuloService();
@@ -19,7 +22,7 @@ export async function createArticulo(
   formData: FormData
 ): Promise<ActionResult> {
   try {
-    const userId = await getSessionUserId();
+    const { id: userId } = await getSessionUser();
     const raw = Object.fromEntries(formData);
 
     const articulo = await service.create({
@@ -46,7 +49,7 @@ export async function updateArticulo(
   formData: FormData
 ): Promise<ActionResult> {
   try {
-    await getSessionUserId();
+    const { id: userId, rol } = await getSessionUser();
     const raw = Object.fromEntries(formData);
 
     await service.update(id, {
@@ -58,7 +61,7 @@ export async function updateArticulo(
       fechaPublicacion: new Date(raw.fechaPublicacion as string),
       publicado: raw.publicado === "true" || raw.publicado === "on",
       slug: raw.slug as string || undefined,
-    });
+    }, userId, rol);
 
     revalidatePaths();
     return { success: true, id };
@@ -69,8 +72,8 @@ export async function updateArticulo(
 
 export async function deleteArticulo(id: string): Promise<ActionResult> {
   try {
-    await getSessionUserId();
-    await service.delete(id);
+    const { id: userId, rol } = await getSessionUser();
+    await service.delete(id, userId, rol);
     revalidatePaths();
     return { success: true };
   } catch (e) {
@@ -80,8 +83,8 @@ export async function deleteArticulo(id: string): Promise<ActionResult> {
 
 export async function publicarArticulo(id: string): Promise<ActionResult> {
   try {
-    const userId = await getSessionUserId();
-    await service.publicar(id, userId);
+    const { id: userId, rol } = await getSessionUser();
+    await service.publicar(id, userId, rol);
     revalidatePaths();
     return { success: true };
   } catch (e) {
@@ -91,8 +94,8 @@ export async function publicarArticulo(id: string): Promise<ActionResult> {
 
 export async function borradorArticulo(id: string): Promise<ActionResult> {
   try {
-    await getSessionUserId();
-    await service.borrador(id);
+    const { id: userId, rol } = await getSessionUser();
+    await service.borrador(id, userId, rol);
     revalidatePaths();
     return { success: true };
   } catch (e) {

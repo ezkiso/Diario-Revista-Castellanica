@@ -1,10 +1,11 @@
 // src/lib/services/ArticuloService.ts
 
 import { prisma } from '@/lib/prisma';
-import { TipoArticulo } from '@prisma/client';
+import { TipoArticulo, Rol } from '@prisma/client';
 import { articuloSchema } from '@/lib/validations';
 import { generateSlug } from '@/lib/slug';
 import { sanitizeHtml } from '@/lib/sanitize';
+import { verifyArticleOwnership, verifyPublishPermission } from '@/lib/authorization';
 
 interface ArticuloData {
   titulo: string;
@@ -59,8 +60,11 @@ export class ArticuloService {
   // ─────────────────────────────────────
   // PUBLICAR un artículo
   // ─────────────────────────────────────
-  async publicar(articuloId: string, userId: string) {
-    // 1. Verificar que el artículo existe
+  async publicar(articuloId: string, userId: string, userRol: Rol) {
+    // 1. Verificar permisos de publicación
+    verifyPublishPermission(userRol);
+
+    // 2. Verificar que el artículo existe
     const articulo = await prisma.articulo.findUnique({
       where: { id: articuloId },
     });
@@ -69,12 +73,15 @@ export class ArticuloService {
       throw new Error(`Artículo ${articuloId} no encontrado`);
     }
 
-    // 2. Verificar que no esté ya publicado
+    // 3. Verificar ownership (solo admin puede publicar artículos de otros)
+    await verifyArticleOwnership(userId, articuloId, userRol);
+
+    // 4. Verificar que no esté ya publicado
     if (articulo.publicado) {
       throw new Error('El artículo ya está publicado');
     }
 
-    // 3. Validar contenido antes de publicar
+    // 5. Validar contenido antes de publicar
     const validation = this.validate({
       titulo: articulo.titulo,
       resumen: articulo.resumen,
@@ -87,7 +94,7 @@ export class ArticuloService {
       throw new Error(`No se puede publicar: ${validation.errors.join(', ')}`);
     }
 
-    // 4. Actualizar en base de datos
+    // 6. Actualizar en base de datos
     return await prisma.articulo.update({
       where: { id: articuloId },
       data: {
@@ -99,7 +106,8 @@ export class ArticuloService {
   // ─────────────────────────────────────
   // PASAR A BORRADOR
   // ─────────────────────────────────────
-  async borrador(articuloId: string) {
+  async borrador(articuloId: string, userId: string, userRol: Rol) {
+    // 1. Verificar que el artículo existe
     const articulo = await prisma.articulo.findUnique({
       where: { id: articuloId },
     });
@@ -108,6 +116,10 @@ export class ArticuloService {
       throw new Error(`Artículo ${articuloId} no encontrado`);
     }
 
+    // 2. Verificar ownership
+    await verifyArticleOwnership(userId, articuloId, userRol);
+
+    // 3. Verificar que no esté ya en borrador
     if (!articulo.publicado) {
       throw new Error('El artículo ya está en borrador');
     }
@@ -153,14 +165,17 @@ export class ArticuloService {
   // ─────────────────────────────────────
   // ACTUALIZAR artículo existente
   // ─────────────────────────────────────
-  async update(id: string, data: Partial<ArticuloData>) {
-    // Validar usando Zod schema
+  async update(id: string, data: Partial<ArticuloData>, userId: string, userRol: Rol) {
+    // 1. Verificar ownership
+    await verifyArticleOwnership(userId, id, userRol);
+
+    // 2. Validar usando Zod schema
     const parsed = articuloSchema.safeParse(data);
     if (!parsed.success) {
       throw new Error(parsed.error.errors[0]?.message || 'Datos inválidos');
     }
 
-    // Generar slug si se cambia el título
+    // 3. Generar slug si se cambia el título
     let slug = data.slug;
     if (data.titulo && !data.slug) {
       slug = generateSlug(data.titulo);
@@ -184,7 +199,10 @@ export class ArticuloService {
   // ─────────────────────────────────────
   // ELIMINAR artículo
   // ─────────────────────────────────────
-  async delete(id: string) {
+  async delete(id: string, userId: string, userRol: Rol) {
+    // 1. Verificar ownership
+    await verifyArticleOwnership(userId, id, userRol);
+
     return await prisma.articulo.delete({
       where: { id },
     });
