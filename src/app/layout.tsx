@@ -116,7 +116,7 @@ export default function RootLayout({
                 Diario y Revista
               </p>
               <p className="text-ufro-ink font-serif text-xl font-semibold leading-tight">
-                Zoranka-Ko
+                Zoronka-Ko
               </p>
             </Link>
           </div>
