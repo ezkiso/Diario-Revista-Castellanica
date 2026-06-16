@@ -38,7 +38,7 @@ export function ArticleJsonLd({
     },
     publisher: {
       "@type": "Organization",
-      name: "Diario Castellano UFRO",
+      name: "Zoranka-Ko",
       logo: {
         "@type": "ImageObject",
         url: LOGO_URL,
@@ -69,11 +69,11 @@ export function OrganizationJsonLd() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "NewsMediaOrganization",
-    name: "Diario Castellano UFRO",
+    name: "Zoranka-Ko",
     url: BASE_URL,
     logo: LOGO_URL,
     description:
-      "Portal de noticias, opinión y cultura de la Carrera de Pedagogía en Castellano y Comunicación — Universidad de La Frontera, Temuco, Chile.",
+      "Proyecto creado y autogestionado por estudiantes de la carrera de Pedagogía en Castellano de la Universidad de La Frontera.",
     address: {
       "@type": "PostalAddress",
       streetAddress: "Av. Francisco Salazar 01145",
