@@ -94,7 +94,7 @@ export function UsersTable({ users, currentUserId }: UsersTableProps) {
                   <span
                     className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${
                       user.rol === "ADMIN"
-                        ? "bg-purple-100 text-purple-800"
+                        ? "bg-blue-100 text-blue-800"
                         : "bg-blue-100 text-blue-800"
                     }`}
                   >

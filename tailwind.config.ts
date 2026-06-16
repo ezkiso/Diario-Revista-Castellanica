@@ -13,8 +13,8 @@ const config: Config = {
         ufro: {
           red: "#C41230",
           "red-dark": "#9E0E26",
-          blue: "#003366",
-          "blue-light": "#004080",
+          blue: "#4A1A7A",
+          "blue-light": "#6B3DAA",
           gold: "#C4A035",
           gray: "#F5F5F0",
           ink: "#1A1A1A",

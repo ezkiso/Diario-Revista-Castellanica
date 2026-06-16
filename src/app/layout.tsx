@@ -83,16 +83,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className={`${serif.variable} ${sans.variable}`}>
-      <body className="min-h-screen bg-ufro-gray font-sans antialiased">
+    <html lang="es" className={`${serif.variable} ${sans.variable} m-0 p-0 border-0 outline-none`}>
+      <body className="min-h-screen bg-white font-sans antialiased m-0 p-0 border-0 outline-none">
 
         {/* JSON-LD — invisible, solo para Google */}
         <OrganizationJsonLd />
 
         {/* ── 1. Barra institucional (bg-ufro-blue) ── */}
         <div className="bg-ufro-blue text-white text-xs py-1.5 px-4 text-center tracking-wide">
-          Universidad de La Frontera — Temuco, Chile ·{" "}
-          <span className="opacity-80">Pedagogía en Castellano y Comunicación</span>
+            Estudiantes de Ped. en Castellano{" "}
+          <span className="opacity-80">UFRO - Temuco</span>
         </div>
 
         {/* ── 2. Sección logo + título (separada del navbar) ── */}
@@ -113,10 +113,10 @@ export default function RootLayout({
             {/* Títulos */}
             <Link href="/" className="hover:opacity-80 transition-opacity">
               <p className="text-ufro-red font-serif font-bold text-sm tracking-widest uppercase leading-tight">
-                Universidad de La Frontera
+                Diario y Revista
               </p>
               <p className="text-ufro-ink font-serif text-xl font-semibold leading-tight">
-                Diario Castellananico UFRO
+                Zoranka-Ko
               </p>
             </Link>
           </div>
@@ -135,8 +135,8 @@ export default function RootLayout({
                     href={href}
                     prefetch={true}
                     className="block text-xs text-gray-600 hover:text-ufro-red px-3 py-3.5
-                               hover:bg-gray-50 transition-colors font-medium whitespace-nowrap
-                               border-b-2 border-transparent hover:border-ufro-red"
+                            hover:bg-gray-50 transition-colors font-medium whitespace-nowrap
+                            border-b-2 border-transparent hover:border-ufro-red"
                   >
                     {label}
                   </Link>
@@ -158,12 +158,12 @@ export default function RootLayout({
             {/* Identidad */}
             <div>
               <p className="font-serif text-base font-semibold mb-2">{SITE_NAME}</p>
-              <p className="text-sm text-blue-200 leading-relaxed">{SITE_DESCRIPTION}</p>
+              <p className="text-sm text-purple-200 leading-relaxed">{SITE_DESCRIPTION}</p>
             </div>
 
             {/* Secciones */}
             <div>
-              <p className="text-xs font-semibold text-blue-300 uppercase tracking-widest mb-3">
+              <p className="text-xs font-semibold text-purple-300 uppercase tracking-widest mb-3">
                 Secciones
               </p>
               <ul className="space-y-2">
@@ -171,7 +171,7 @@ export default function RootLayout({
                   <li key={href}>
                     <Link
                       href={href}
-                      className="text-sm text-blue-200 hover:text-white transition-colors"
+                      className="text-sm text-purple-200 hover:text-white transition-colors"
                     >
                       {label}
                     </Link>
@@ -182,10 +182,10 @@ export default function RootLayout({
 
             {/* Institución */}
             <div>
-              <p className="text-xs font-semibold text-blue-300 uppercase tracking-widest mb-3">
+              <p className="text-xs font-semibold text-purple-300 uppercase tracking-widest mb-3">
                 Universidad de La Frontera
               </p>
-              <address className="not-italic text-sm text-blue-200 leading-relaxed">
+              <address className="not-italic text-sm text-purple-200 leading-relaxed">
                 Av. Francisco Salazar 01145
                 <br />
                 Temuco, Chile
@@ -196,7 +196,7 @@ export default function RootLayout({
           {/* Copyright */}
           <div className="border-t border-white/10">
             <div className="max-w-6xl mx-auto px-4 py-4">
-              <p className="text-xs text-blue-300">
+              <p className="text-xs text-purple-300">
                 © {new Date().getFullYear()} {SITE_NAME}. Todos los derechos reservados.
               </p>
             </div>
