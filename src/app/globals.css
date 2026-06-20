@@ -63,7 +63,7 @@
     @apply border-l-4 border-ufro-red pl-4 italic text-muted-foreground my-6;
   }
   .prose-article a {
-    @apply text-ufro-blue underline hover:text-ufro-red transition-colors;
+    @apply text-ufro-purple underline hover:text-ufro-red transition-colors;
   }
   .prose-article img {
     @apply rounded my-6 max-w-full h-auto;

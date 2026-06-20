@@ -25,15 +25,15 @@ function RevistaFeaturedComponent({ revista }: RevistaFeaturedProps) {
             sizes="(max-width: 768px) 100vw, 33vw"
           />
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center bg-ufro-blue/10">
-            <span className="font-serif text-4xl font-bold text-ufro-blue/30">
+          <div className="absolute inset-0 flex items-center justify-center bg-ufro-purple/10">
+            <span className="font-serif text-4xl font-bold text-ufro-purple/30">
               {revista.anio}
             </span>
           </div>
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-4">
-          <span className="inline-block bg-ufro-gold text-ufro-blue text-xs font-bold px-2 py-0.5 rounded mb-2">
+          <span className="inline-block bg-ufro-gold text-ufro-purple text-xs font-bold px-2 py-0.5 rounded mb-2">
             NUEVA EDICIÓN
           </span>
           <h3 className="font-serif text-lg font-bold text-white">

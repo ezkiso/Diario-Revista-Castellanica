@@ -46,7 +46,7 @@ export default async function HomePage() {
         {latestRevista && (
           <aside className="lg:sticky lg:top-24 h-fit">
             <div className="border-l-2 border-ufro-gold pl-4">
-              <h3 className="font-serif text-lg font-bold mb-4 text-ufro-blue">
+              <h3 className="font-serif text-lg font-bold mb-4 text-ufro-purple">
                 Revista Castellánica
               </h3>
               <RevistaFeatured revista={latestRevista} />

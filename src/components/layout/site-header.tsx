@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 export function SiteHeader() {
   return (
     <header className="border-b border-border bg-white sticky top-0 z-40 shadow-sm">
-      <div className="bg-ufro-blue text-white text-xs py-1.5">
+      <div className="bg-ufro-purple text-white text-xs py-1.5">
         <div className="container mx-auto px-4 text-center">
           Universidad de La Frontera — Temuco, Chile · Pedagogía en Castellano y Comunicación
         </div>
@@ -28,7 +28,7 @@ export function SiteHeader() {
               <p className="text-xs uppercase tracking-widest text-ufro-red font-semibold">
                 Universidad de La Frontera
               </p>
-              <h1 className="font-serif text-2xl md:text-3xl font-bold text-ufro-blue group-hover:text-ufro-red transition-colors">
+              <h1 className="font-serif text-2xl md:text-3xl font-bold text-ufro-purple group-hover:text-ufro-red transition-colors">
                 {SITE_NAME}
               </h1>
             </div>

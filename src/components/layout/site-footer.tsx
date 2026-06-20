@@ -3,7 +3,7 @@ import { SITE_NAME } from "@/lib/constants";
 export function SiteFooter() {
   const year = new Date().getFullYear();
   return (
-    <footer className="border-t border-border bg-ufro-blue text-white mt-16">
+    <footer className="border-t border-border bg-ufro-purple text-white mt-16">
       <div className="container mx-auto px-4 py-10">
         <div className="grid md:grid-cols-2 gap-8">
           <div>

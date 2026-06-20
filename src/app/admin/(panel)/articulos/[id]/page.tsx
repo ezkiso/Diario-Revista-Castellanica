@@ -22,7 +22,7 @@ export default async function EditarArticuloPage({ params }: Props) {
           {articulo.publicado && (
             <Link
               href={`/articulo/${articulo.slug}`}
-              className="text-sm text-ufro-blue hover:underline"
+              className="text-sm text-ufro-purple hover:underline"
               target="_blank"
             >
               Ver en sitio →

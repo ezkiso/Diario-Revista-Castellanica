@@ -29,7 +29,7 @@ export default async function EditarRevistaPage({ params }: Props) {
             <Link
               href={`/revista-castellanica/${revista.anio}`}
               target="_blank"
-              className="text-sm text-ufro-blue hover:underline"
+              className="text-sm text-ufro-purple hover:underline"
             >
               Ver edición →
             </Link>

@@ -14,7 +14,7 @@ export async function CategoryPage({ tipo, title, description }: CategoryPagePro
   return (
     <div className="container mx-auto px-4 py-8">
       <header className="mb-8 border-b-2 border-ufro-red pb-4">
-        <h1 className="font-serif text-3xl md:text-4xl font-bold text-ufro-blue">{title}</h1>
+        <h1 className="font-serif text-3xl md:text-4xl font-bold text-ufro-purple">{title}</h1>
         <p className="text-muted-foreground mt-2 max-w-2xl">{description}</p>
       </header>
       {articles.length === 0 ? (

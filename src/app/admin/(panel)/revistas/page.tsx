@@ -36,7 +36,7 @@ export default async function AdminRevistasPage() {
                 </p>
               </div>
               {r.publicada && (
-                <span className="text-xs text-ufro-blue">
+                <span className="text-xs text-ufro-purple">
                   /revista-castellanica/{r.anio}
                 </span>
               )}

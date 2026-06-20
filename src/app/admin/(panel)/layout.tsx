@@ -9,7 +9,7 @@ export default function AdminPanelLayout({
 }) {
   return (
     <div className="min-h-screen bg-background">
-      <div className="border-b bg-ufro-blue text-white px-4 py-3 flex items-center justify-between">
+      <div className="border-b bg-ufro-purple text-white px-4 py-3 flex items-center justify-between">
         <Link href="/admin" className="font-semibold">
           Panel — {SITE_NAME}
         </Link>

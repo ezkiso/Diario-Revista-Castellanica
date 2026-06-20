@@ -27,7 +27,7 @@ export function AdminNav() {
             className={cn(
               "flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors",
               pathname === href || (href !== "/admin" && pathname.startsWith(href))
-                ? "bg-ufro-blue text-white"
+                ? "bg-ufro-purple text-white"
                 : "hover:bg-white"
             )}
           >

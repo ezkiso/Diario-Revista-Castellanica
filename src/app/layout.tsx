@@ -28,7 +28,7 @@ const OG_IMAGE = `${SITE_URL}/images/og-image.png`;
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   icons: {
-    icon: "/images/logo.ico",
+    icon: "/images/icon.ico",
   },
   title: {
     default: SITE_NAME,
@@ -83,7 +83,7 @@ export default function RootLayout({
         <OrganizationJsonLd />
 
         {/* ── 1. Barra institucional ── */}
-        <div className="bg-ufro-blue text-white text-xs py-1.5 px-4 text-center tracking-wide">
+        <div style={{ backgroundColor: "#4A1A7A" }} className="text-white text-xs py-1.5 px-4 text-center tracking-wide">
           Estudiantes de Ped. en Castellano{" "}
           <span className="opacity-80">UFRO - Temuco</span>
         </div>
@@ -94,8 +94,8 @@ export default function RootLayout({
             <Link href="/" aria-label={`${SITE_NAME} — Inicio`}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/images/logo.png"
-                alt="Logo Universidad de La Frontera"
+                src="/images/logo-1.png"
+                alt="Logo Zoronka-Ko"
                 width={56}
                 height={56}
                 className="rounded"
@@ -139,7 +139,7 @@ export default function RootLayout({
         </main>
 
         {/* ── 5. Footer ── */}
-        <footer className="bg-ufro-blue text-white mt-16">
+        <footer style={{ backgroundColor: "#4A1A7A" }} className="text-white mt-16">
           <div className="max-w-6xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-2 gap-8">
 
             {/* Identidad */}
@@ -189,7 +189,7 @@ export default function RootLayout({
               <div className="flex flex-col gap-3">
 
                 
-                <a  href="https://www.youtube.com/@TU_CANAL"
+                <a  href="https://www.youtube.com/@Castellanocomunica777"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-sm text-purple-200 hover:text-white transition-colors"

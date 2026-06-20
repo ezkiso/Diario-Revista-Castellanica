@@ -17,7 +17,7 @@ export default async function RevistaIndexPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <header className="mb-10 border-b-2 border-ufro-gold pb-4">
-        <h1 className="font-serif text-3xl md:text-4xl font-bold text-ufro-blue">
+        <h1 className="font-serif text-3xl md:text-4xl font-bold text-ufro-purple">
           Revista Castellánica
         </h1>
         <p className="text-muted-foreground mt-2 max-w-2xl">
@@ -46,7 +46,7 @@ export default async function RevistaIndexPage() {
                     sizes="(max-width: 768px) 100vw, 33vw"
                   />
                 ) : (
-                  <div className="absolute inset-0 flex items-center justify-center font-serif text-4xl text-ufro-blue/30">
+                  <div className="absolute inset-0 flex items-center justify-center font-serif text-4xl text-ufro-purple/30">
                     {revista.anio}
                   </div>
                 )}
