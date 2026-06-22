@@ -84,7 +84,6 @@ export function EditarContenidoRevistaForm({
     formData.set("imagen", imagenUrl);
     formData.set("titulo", formData.get("titulo") as string);
     formData.set("autor", formData.get("autor") as string);
-    formData.set("revistaId", ""); // No se usa en update
 
     startTransition(async () => {
       const result = await updateContenidoRevista(contenido.id, formData);

@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { sanitizeHtml } from "@/lib/sanitize";
-import { revistaSchema, contenidoRevistaSchema } from "@/lib/validations";
+import { revistaSchema, contenidoRevistaSchema, editarContenidoRevistaSchema } from "@/lib/validations";
 
 type ActionResult = { success: boolean; error?: string; id?: string };
 
@@ -135,7 +135,7 @@ export async function updateContenidoRevista(
   try {
     await requireAuth();
     const raw = Object.fromEntries(formData);
-    const parsed = contenidoRevistaSchema.safeParse(raw);
+    const parsed = editarContenidoRevistaSchema.safeParse(raw);
     if (!parsed.success) {
       return { success: false, error: parsed.error.errors[0]?.message };
     }

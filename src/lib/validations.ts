@@ -83,6 +83,16 @@ export const contenidoRevistaSchema = z.object({
   revistaId: z.string().min(1, "ID de revista requerido"), // ← acepta cualquier formato
 });
 
+// Schema para EDITAR contenido (sin revistaId)
+export const editarContenidoRevistaSchema = z.object({
+  titulo: z.string().min(2).max(200),
+  autor: z.string().min(2).max(120),
+  contenido: z.string().min(10),
+  imagen: imageUrlOrPath.optional().or(z.literal("")),
+});
+
+export type EditarContenidoRevistaInput = z.infer<typeof editarContenidoRevistaSchema>;
+
 export type LoginInput = z.infer<typeof loginSchema>;
 export type ArticuloInput = z.infer<typeof articuloSchema>;
 export type RevistaInput = z.infer<typeof revistaSchema>;
