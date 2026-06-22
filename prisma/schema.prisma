@@ -14,7 +14,7 @@ enum Rol {
 }
 
 enum TipoArticulo {
-  NOTICIA
+  CONVERSACIONES
   OPINION
   CARTA_DIRECTOR
   DIFUSION

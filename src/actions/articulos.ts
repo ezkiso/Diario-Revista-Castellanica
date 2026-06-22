@@ -105,7 +105,7 @@ export async function borradorArticulo(id: string): Promise<ActionResult> {
 
 function revalidatePaths() {
   revalidatePath("/");
-  revalidatePath("/noticias");
+  revalidatePath("/conversaciones");
   revalidatePath("/opinion");
   revalidatePath("/cartas-al-director");
   revalidatePath("/difusion");

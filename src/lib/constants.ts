@@ -6,22 +6,22 @@ export const SITE_DESCRIPTION =
 export const SITE_URL = process.env.AUTH_URL ?? "https://diario-revista-castellanica.vercel.app";
 
 export const TIPO_ARTICULO_LABELS: Record<TipoArticulo, string> = {
-  NOTICIA: "Noticias",
-  OPINION: "Columnas de Opinión",
+  CONVERSACIONES: "Conversaciones",
+  OPINION: "Opinión",
   CARTA_DIRECTOR: "Cartas al Director",
   DIFUSION: "Difusión",
 };
 
 export const TIPO_ARTICULO_ROUTES: Record<TipoArticulo, string> = {
-  NOTICIA: "/noticias",
+  CONVERSACIONES: "/conversaciones",
   OPINION: "/opinion",
   CARTA_DIRECTOR: "/cartas-al-director",
   DIFUSION: "/difusion",
 };
 
 export const NAV_LINKS = [
-  { href: "/noticias", label: "Noticias" },
-  { href: "/opinion", label: "Columnas de Opinión" },
+  { href: "/conversaciones", label: "Conversaciones" },
+  { href: "/opinion", label: "Opinión" },
   { href: "/cartas-al-director", label: "Cartas al Director" },
   { href: "/difusion", label: "Difusión" },
   { href: "/revista-castellanica", label: "Revista Castellánica" },
@@ -31,14 +31,14 @@ export const PLACEHOLDER_IMAGE =
   "https://images.unsplash.com/photo-1504711434966-e33886168f5c?w=800&q=80";
 
   export const TIPO_LABELS: Record<TipoArticulo, string> = {
-    NOTICIA:        "Noticias",
-    OPINION:        "Columnas de Opinión",
+    CONVERSACIONES: "Conversaciones",
+    OPINION:        "Opinión",
     CARTA_DIRECTOR: "Cartas al Director",
     DIFUSION:       "Difusión",
   };
 
   export const TIPO_HREFS: Record<TipoArticulo, string> = {
-    NOTICIA:        "/noticias",
+    CONVERSACIONES: "/conversaciones",
     OPINION:        "/opinion",
     CARTA_DIRECTOR: "/cartas-al-director",
     DIFUSION:       "/difusion",
