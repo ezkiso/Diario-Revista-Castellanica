@@ -80,7 +80,7 @@ export const contenidoRevistaSchema = z.object({
   autor: z.string().min(2).max(120),
   contenido: z.string().min(10),
   imagen: imageUrlOrPath.optional().or(z.literal("")),
-  revistaId: z.string().cuid(),
+  revistaId: z.string().min(1, "ID de revista requerido"), // ← acepta cualquier formato
 });
 
 export type LoginInput = z.infer<typeof loginSchema>;
