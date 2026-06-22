@@ -59,7 +59,10 @@ export const articuloSchema = z.object({
   contenido: z.string().min(10, "El contenido es obligatorio"),
   imagenDestacada: imageUrlOrPath.optional().or(z.literal("")),
   tipo: z.nativeEnum(TipoArticulo),
-  fechaPublicacion: z.string().min(1, "Fecha requerida"),
+  fechaPublicacion: z.preprocess(
+  (val) => val instanceof Date ? val.toISOString() : val,
+  z.string().min(1, "Fecha requerida")
+  ),
   publicado: z.boolean(),
   slug: z.string().optional(),
 });
