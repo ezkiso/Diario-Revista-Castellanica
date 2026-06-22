@@ -92,7 +92,6 @@ export const editarContenidoRevistaSchema = z.object({
 });
 
 export type EditarContenidoRevistaInput = z.infer<typeof editarContenidoRevistaSchema>;
-
 export type LoginInput = z.infer<typeof loginSchema>;
 export type ArticuloInput = z.infer<typeof articuloSchema>;
 export type RevistaInput = z.infer<typeof revistaSchema>;
