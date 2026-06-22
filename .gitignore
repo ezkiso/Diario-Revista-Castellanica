@@ -6,7 +6,8 @@
 
 # testing
 /coverage
-
+/test
+zoronka.spec.ts 
 # next.js
 /.next/
 /out/
