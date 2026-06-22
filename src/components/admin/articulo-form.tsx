@@ -53,7 +53,7 @@ export function ArticuloForm({ articulo }: ArticuloFormProps) {
   const [error, setError] = useState<string | null>(null);
   const [contenido, setContenido] = useState(articulo?.contenido ?? "");
   const [tipo, setTipo] = useState<TipoArticulo>(
-    articulo?.tipo ?? TipoArticulo.NOTICIA
+    articulo?.tipo ?? TipoArticulo.CONVERSACIONES
   );
   const [publicado, setPublicado] = useState(articulo?.publicado ?? false);
   const [imagenUrl, setImagenUrl] = useState(articulo?.imagenDestacada ?? "");
