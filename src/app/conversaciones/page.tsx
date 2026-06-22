@@ -7,16 +7,16 @@ import { CategoryPage } from "@/components/articles/category-page";
 import { SITE_NAME } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Noticias",
-  description: `Noticias de ${SITE_NAME} — Universidad de La Frontera`,
+  title: "Conversaciones",
+  description: `Conversaciones de ${SITE_NAME} — Universidad de La Frontera`,
 };
 
-export default function NoticiasPage() {
+export default function ConversacionesPage() {
   return (
     <CategoryPage
-      tipo={TipoArticulo.NOTICIA}
-      title="Noticias"
-      description="Actualidad de la carrera, la universidad y la comunidad educativa."
+      tipo={TipoArticulo.CONVERSACIONES}
+      title="Conversaciones"
+      description="Discusiones y reflexiones sobre la pedagogía en castellano y la comunidad educativa."
     />
   );
 }
