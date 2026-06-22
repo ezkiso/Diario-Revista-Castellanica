@@ -40,7 +40,7 @@ async function main() {
         "La Carrera de Pedagogía en Castellano y Comunicación de la UFRO da la bienvenida a estudiantes de la generación 2026.",
       contenido:
         "<p>Con una ceremonia en el campus de Temuco, la carrera inauguró el año académico destacando el compromiso con la formación docente en lengua castellana.</p><p>Autoridades universitarias subrayaron la importancia de la comunicación educativa en el contexto regional.</p>",
-      tipo: TipoArticulo.NOTICIA,
+      tipo: TipoArticulo.CONVERSACIONES,
       imagenDestacada:
         "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1200&q=80",
     },
