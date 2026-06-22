@@ -52,7 +52,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     orderBy: { fechaPublicacion: "desc" },
   });
 
-  const articuloRoutes: MetadataRoute.Sitemap = articulos.map((a: any) => ({
+  const articuloRoutes: MetadataRoute.Sitemap = articulos.map((a) => ({
     url: `${BASE_URL}/articulo/${a.slug}`,
     lastModified: a.updatedAt,
     changeFrequency: "monthly",
@@ -65,7 +65,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     select: { anio: true, createdAt: true },
   });
 
-  const revistaRoutes: MetadataRoute.Sitemap = revistas.map((r: any) => ({
+  const revistaRoutes: MetadataRoute.Sitemap = revistas.map((r) => ({
     url: `${BASE_URL}/revista-castellanica/${r.anio}`,
     lastModified: r.createdAt,
     changeFrequency: "yearly",
