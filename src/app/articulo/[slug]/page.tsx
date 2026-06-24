@@ -87,6 +87,11 @@ export default async function ArticuloPage({ params }: Props) {
           </div>
         </header>
 
+        {/* ── Resumen / Bajada ── */}
+        <p className="text-xl md:text-2xl font-serif text-muted-foreground leading-relaxed border-l-4 border-ufro-red pl-5 mb-8 italic">
+          {article.resumen}
+        </p>
+
         <div className="relative aspect-[16/9] mb-8 rounded overflow-hidden">
           <Image
             src={imageSrc}
