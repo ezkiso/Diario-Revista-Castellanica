@@ -147,6 +147,17 @@ export async function POST(request: NextRequest) {
         { status: 409 }
       );
     }
+    // Máximo 3 usuarios no-admin
+    const editorCount = await prisma.user.count({
+      where: { rol: "EDITOR" },
+    });
+
+    if (editorCount >= 3) {
+      return NextResponse.json(
+        { error: "Se alcanzó el límite máximo de 3 editores." },
+        { status: 403 }
+      );
+    }
 
     // Restricción: Solo permitir crear usuarios ADMIN si no existe ninguno
     // Esto mantiene un solo administrador por seguridad

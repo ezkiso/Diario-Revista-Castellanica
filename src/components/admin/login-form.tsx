@@ -6,6 +6,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PasswordInput } from "@/components/ui/password-input";
+import Link from "next/link"; // ← NUEVO
 
 export function LoginForm() {
   const router = useRouter();
@@ -51,10 +53,9 @@ export function LoginForm() {
       </div>
       <div>
         <Label htmlFor="password">Contraseña</Label>
-        <Input
+        <PasswordInput
           id="password"
           name="password"
-          type="password"
           required
           autoComplete="current-password"
           className="mt-1"
@@ -68,6 +69,13 @@ export function LoginForm() {
       <Button type="submit" className="w-full" disabled={loading}>
         {loading ? "Ingresando…" : "Ingresar"}
       </Button>
+                       {/* ← NUEVO */}
+        <Link
+          href="/recuperar-contrasena"
+          className="text-sm text-muted-foreground hover:underline block text-center"
+        >
+          ¿Olvidaste tu contraseña?
+        </Link>
     </form>
   );
 }

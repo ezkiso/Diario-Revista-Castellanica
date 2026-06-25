@@ -21,13 +21,18 @@ enum TipoArticulo {
 }
 
 model User {
-  id           String    @id @default(cuid())
-  nombre       String
-  email        String    @unique
-  passwordHash String
-  rol          Rol       @default(EDITOR)
-  createdAt    DateTime  @default(now())
-  articulos    Articulo[]
+  id                      String    @id @default(cuid())
+  email                   String    @unique
+  nombre                  String
+  passwordHash            String?
+  rol                     Rol       @default(EDITOR)
+  verificado              Boolean   @default(false)
+  verificationToken       String?   @unique
+  verificationTokenExpiry DateTime?
+  resetToken              String?   @unique  // ← NUEVO
+  resetTokenExpiry        DateTime?           // ← NUEVO
+  createdAt               DateTime  @default(now())
+  articulos               Articulo[]
 
   @@map("users")
 }
