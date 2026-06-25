@@ -148,6 +148,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null;
         }
 
+        if (!user.passwordHash) {
+          await recordFailedLogin(email);
+          return null;
+        }
+
         const valid = await bcrypt.compare(
           parsed.data.password,
           user.passwordHash

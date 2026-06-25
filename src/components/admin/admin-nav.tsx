@@ -2,20 +2,24 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { LayoutDashboard, FileText, BookOpen, Users, LogOut } from "lucide-react";
 
-const links = [
-  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/admin/articulos", label: "Artículos", icon: FileText },
-  { href: "/admin/revistas", label: "Revistas", icon: BookOpen },
-  { href: "/admin/usuarios", label: "Usuarios", icon: Users },
+const allLinks = [
+  { href: "/admin", label: "Dashboard", icon: LayoutDashboard, roles: ["ADMIN", "EDITOR"] },
+  { href: "/admin/articulos", label: "Artículos", icon: FileText, roles: ["ADMIN", "EDITOR"] },
+  { href: "/admin/revistas", label: "Revistas", icon: BookOpen, roles: ["ADMIN", "EDITOR"] },
+  { href: "/admin/usuarios", label: "Usuarios", icon: Users, roles: ["ADMIN"] },
 ];
 
 export function AdminNav() {
   const pathname = usePathname();
+  const { data: session } = useSession();
+  const userRole = session?.user?.rol;
+
+  const links = allLinks.filter(link => link.roles.includes(userRole as string));
 
   return (
     <aside className="w-full md:w-56 shrink-0 border-r bg-muted/30 min-h-[calc(100vh-4rem)] p-4">
