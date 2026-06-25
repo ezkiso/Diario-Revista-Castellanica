@@ -19,7 +19,13 @@ export function AdminNav() {
   const { data: session } = useSession();
   const userRole = session?.user?.rol;
 
-  const links = allLinks.filter(link => link.roles.includes(userRole as string));
+  const links = allLinks.filter(link => {
+    // Si no hay rol, solo mostrar enlaces que no requieren ADMIN
+    if (!userRole) {
+      return !link.roles.includes("ADMIN");
+    }
+    return link.roles.includes(userRole);
+  });
 
   return (
     <aside className="w-full md:w-56 shrink-0 border-r bg-muted/30 min-h-[calc(100vh-4rem)] p-4">

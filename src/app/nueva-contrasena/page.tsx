@@ -4,8 +4,9 @@ import { useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Suspense } from 'react';
 
-export default function NuevaContrasenaPage() {
+function NuevaContrasenaForm() {
     const params    = useSearchParams();
     const router    = useRouter();
     const token     = params.get('token') ?? '';
@@ -99,5 +100,13 @@ export default function NuevaContrasenaPage() {
             </div>
         </div>
         </div>
+    );
+}
+
+export default function NuevaContrasenaPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><p className="text-muted-foreground">Cargando...</p></div>}>
+            <NuevaContrasenaForm />
+        </Suspense>
     );
 }
