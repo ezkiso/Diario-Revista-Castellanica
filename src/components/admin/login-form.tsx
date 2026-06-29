@@ -70,12 +70,14 @@ export function LoginForm() {
         {loading ? "Ingresando…" : "Ingresar"}
       </Button>
                        {/* ← NUEVO */}
+        {/* PENDIENTE: activar cuando se configure dominio en Brevo
         <Link
           href="/recuperar-contrasena"
           className="text-sm text-muted-foreground hover:underline block text-center"
         >
           ¿Olvidaste tu contraseña?
         </Link>
+        */}
     </form>
   );
 }
