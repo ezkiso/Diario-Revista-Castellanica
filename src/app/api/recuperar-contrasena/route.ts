@@ -3,7 +3,25 @@ import { prisma } from '@/lib/prisma';
 import { randomBytes } from 'crypto';
 import { enviarEmailRecuperarContrasena } from '@/lib/email';
 
+// Rate limiting por IP — máx 3 solicitudes cada 30 minutos
+const resetAttempts = new Map<string, { count: number; resetTime: number }>();
+const MAX_INTENTOS = 3;
+const VENTANA_MS = 30 * 60 * 1000;
+
 export async function POST(req: Request) {
+    const ip = (req.headers as Headers).get('x-forwarded-for') ?? 'unknown';
+    const now = Date.now();
+    const record = resetAttempts.get(ip);
+
+    if (record && now < record.resetTime) {
+        if (record.count >= MAX_INTENTOS) {
+        return NextResponse.json({ ok: true });
+        }
+        record.count++;
+    } else {
+        resetAttempts.set(ip, { count: 1, resetTime: now + VENTANA_MS });
+    }
+
     const { email } = await req.json();
 
     if (!email) {
@@ -12,7 +30,6 @@ export async function POST(req: Request) {
 
     const usuario = await prisma.user.findUnique({ where: { email } });
 
-    // Siempre responder OK aunque el email no exista (seguridad)
     if (!usuario) {
         return NextResponse.json({ ok: true });
     }
@@ -28,17 +45,21 @@ export async function POST(req: Request) {
         },
     });
 
+    // En desarrollo mostrar link directo
+    if (process.env.NODE_ENV === 'development') {
+        const link = `${process.env.NEXT_PUBLIC_URL}/nueva-contrasena?token=${token}`;
+        return NextResponse.json({ ok: true, devLink: link });
+    }
+
     try {
         await enviarEmailRecuperarContrasena({
-            email,
-            nombre: usuario.nombre,
-            token,
+        email,
+        nombre: usuario.nombre,
+        token,
         });
     } catch (error) {
         console.error('Error enviando email de recuperación:', error);
-        // No fallar la petición si el email no se envía
-        // En producción, podrías querer registrar este error
     }
 
     return NextResponse.json({ ok: true });
-}
+    }

@@ -41,11 +41,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: article.imagenDestacada ? [article.imagenDestacada] : undefined,
       url,
     },
-    twitter: {
-      card: "summary_large_image",
-      title: article.titulo,
-      description: article.resumen,
-    },
     alternates: { canonical: url },
   };
 }
@@ -95,7 +90,7 @@ export default async function ArticuloPage({ params }: Props) {
         <div className="relative aspect-[16/9] mb-8 rounded overflow-hidden">
           <Image
             src={imageSrc}
-            alt=""
+            alt={article.titulo}
             fill
             className="object-cover"
             priority

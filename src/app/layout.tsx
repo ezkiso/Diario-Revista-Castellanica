@@ -48,13 +48,6 @@ export const metadata: Metadata = {
     locale: "es_CL",
     images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: SITE_NAME }],
   },
-  twitter: {
-    card: "summary_large_image",
-    title: SITE_NAME,
-    description: SITE_DESCRIPTION,
-    site: "@DiarioCastellananicoUFRO",
-    images: [OG_IMAGE],
-  },
   robots: {
     index: true,
     follow: true,
