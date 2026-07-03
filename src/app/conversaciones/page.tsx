@@ -1,14 +1,21 @@
 export const dynamic = "force-dynamic";
-export const revalidate = 300; // Revalidar cada 5 minutos
+export const revalidate = 300;
 
 import type { Metadata } from "next";
 import { TipoArticulo } from "@prisma/client";
 import { CategoryPage } from "@/components/articles/category-page";
-import { SITE_NAME } from "@/lib/constants";
+import { SITE_NAME, SITE_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Conversaciones",
-  description: `Conversaciones de ${SITE_NAME} — Universidad de La Frontera`,
+  description: `Discusiones y reflexiones sobre la pedagogía en castellano y la comunidad educativa de ${SITE_NAME} — Universidad de La Frontera.`,
+  alternates: { canonical: `${SITE_URL}/conversaciones` },
+  openGraph: {
+    title: `Conversaciones | ${SITE_NAME}`,
+    description: `Discusiones y reflexiones sobre la pedagogía en castellano y la comunidad educativa.`,
+    url: `${SITE_URL}/conversaciones`,
+    type: "website",
+  },
 };
 
 export default function ConversacionesPage() {
