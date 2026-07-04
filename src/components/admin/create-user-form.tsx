@@ -32,18 +32,15 @@ export function CreateUserForm({ canCreateAdmin }: CreateUserFormProps) {
     setSuccess(null);
 
     const form = new FormData(e.currentTarget);
-    const email = form.get("email") as string;
-    const password = form.get("password") as string;
+    const email  = form.get("email")  as string;
     const nombre = form.get("nombre") as string;
-    const rol = form.get("rol") as Rol;
+    const rol    = form.get("rol")    as Rol;
 
     try {
       const response = await fetch("/api/admin/users", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password, nombre, rol }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, nombre, rol }),
       });
 
       const data = await response.json();
@@ -87,46 +84,29 @@ export function CreateUserForm({ canCreateAdmin }: CreateUserFormProps) {
             type="email"
             required
             className="mt-1"
-            placeholder="usuario@ejemplo.com"
+            placeholder="usuario@ufro.cl"
           />
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
-        <div>
-          <Label htmlFor="password">Contraseña</Label>
-          <Input
-            id="password"
-            name="password"
-            type="password"
-            required
-            minLength={12}
-            className="mt-1"
-            placeholder="Mínimo 12 caracteres, mayúscula, minúscula, número y símbolo"
-          />
+      <div>
+        <Label htmlFor="rol">Rol</Label>
+        <Select name="rol" required defaultValue="EDITOR">
+          <SelectTrigger className="mt-1">
+            <SelectValue placeholder="Seleccionar rol" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="EDITOR">Editor</SelectItem>
+            {canCreateAdmin && (
+              <SelectItem value="ADMIN">Administrador</SelectItem>
+            )}
+          </SelectContent>
+        </Select>
+        {!canCreateAdmin && (
           <p className="text-xs text-muted-foreground mt-1">
-            Requisitos: 12+ caracteres, mayúscula, minúscula, número, símbolo
+            Solo puede haber un administrador
           </p>
-        </div>
-        <div>
-          <Label htmlFor="rol">Rol</Label>
-          <Select name="rol" required defaultValue="EDITOR">
-            <SelectTrigger className="mt-1">
-              <SelectValue placeholder="Seleccionar rol" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="EDITOR">Editor</SelectItem>
-              {canCreateAdmin && (
-                <SelectItem value="ADMIN">Administrador</SelectItem>
-              )}
-            </SelectContent>
-          </Select>
-          {!canCreateAdmin && (
-            <p className="text-xs text-muted-foreground mt-1">
-              Solo puede haber un administrador
-            </p>
-          )}
-        </div>
+        )}
       </div>
 
       {error && (
@@ -142,7 +122,7 @@ export function CreateUserForm({ canCreateAdmin }: CreateUserFormProps) {
       )}
 
       <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? "Creando usuario…" : "Crear usuario"}
+        {loading ? "Enviando invitación…" : "Crear usuario"}
       </Button>
     </form>
   );

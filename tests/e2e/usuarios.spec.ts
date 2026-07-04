@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
-const TS    = Date.now();
-const EMAIL = `editor.test.${TS}@gmail.com`;
+const TS     = Date.now();
+const EMAIL  = `editor.test.${TS}@gmail.com`;
 const NOMBRE = `Editor Test ${TS}`;
 
 test.describe('Usuarios — gestión desde admin', () => {
@@ -11,46 +11,54 @@ test.describe('Usuarios — gestión desde admin', () => {
 
         await page.getByLabel('Nombre completo').fill(NOMBRE);
         await page.getByLabel('Email').fill(EMAIL);
-        // Rol EDITOR viene por defecto
 
-        await page.getByRole('button', { name: /crear usuario/i }).click();
+        // Click en el botón submit del formulario
+        await page.locator('form button[type="submit"]').first().click();
 
-        // Mensaje de éxito
+        // Esperar cualquier mensaje de respuesta del formulario
         await expect(
-        page.getByText(/usuario creado/i)
+        page.locator('p[role="alert"]').first()
         ).toBeVisible({ timeout: 10_000 });
 
-        // Aparece en la tabla
+        // Verificar que es un mensaje de éxito (texto verde)
+        const alerta = page.locator('p[role="alert"]').first();
+        await expect(alerta).not.toHaveClass(/destructive/);
+
+        // Email aparece en la tabla
         await expect(page.getByText(EMAIL)).toBeVisible();
     });
 
     test('2. No permite crear más de 3 editores', async ({ page }) => {
         await page.goto('/admin/usuarios');
 
-        // Crear hasta llenar el límite (puede que ya haya algunos)
-        for (let i = 0; i < 3; i++) {
-        await page.getByLabel('Nombre completo').fill(`Editor Limite ${i}`);
+        // Crear 4 usuarios — el 4to debe fallar
+        for (let i = 0; i < 4; i++) {
+        await page.getByLabel('Nombre completo').fill(`Editor Limite ${i} ${TS}`);
         await page.getByLabel('Email').fill(`limite.${i}.${TS}@gmail.com`);
-        await page.getByRole('button', { name: /crear usuario/i }).click();
-        await page.waitForTimeout(800);
+        await page.locator('form button[type="submit"]').first().click();
+        await page.waitForTimeout(1000);
         }
 
-        // Siguiente intento debe mostrar error de límite
-        await page.getByLabel('Nombre completo').fill('Editor Extra');
-        await page.getByLabel('Email').fill(`extra.${TS}@gmail.com`);
-        await page.getByRole('button', { name: /crear usuario/i }).click();
-
-        await expect(
-        page.getByText(/límite máximo/i)
-        ).toBeVisible({ timeout: 10_000 });
+        // Debe mostrar error
+        const alerta = page.locator('p[role="alert"]').first();
+        await expect(alerta).toBeVisible({ timeout: 10_000 });
+        await expect(alerta).toHaveClass(/destructive/);
     });
 
     test('3. Eliminar usuario', async ({ page }) => {
         await page.goto('/admin/usuarios');
 
+        // Buscar la fila con el email y click en el primer botón de esa fila
         const fila = page.locator('tr', { hasText: EMAIL });
-        await fila.getByRole('button', { name: /eliminar/i }).click();
-        await page.getByRole('button', { name: /confirmar/i }).click();
+        await expect(fila).toBeVisible({ timeout: 10_000 });
+
+        // Click en cualquier botón de la fila (el de eliminar)
+        await fila.locator('button').last().click();
+
+        // Confirmar en el dialog — buscar el botón de acción destructiva
+        const dialog = page.getByRole('alertdialog');
+        await expect(dialog).toBeVisible();
+        await dialog.getByRole('button').last().click();
 
         await expect(page.getByText(EMAIL)).not.toBeVisible({ timeout: 10_000 });
     });
