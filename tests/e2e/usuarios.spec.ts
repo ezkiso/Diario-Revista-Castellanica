@@ -48,19 +48,22 @@ test.describe('Usuarios — gestión desde admin', () => {
     test('3. Eliminar usuario', async ({ page }) => {
         await page.goto('/admin/usuarios');
 
-        // Buscar la fila con el email y click en el primer botón de esa fila
         const fila = page.locator('tr', { hasText: EMAIL });
         await expect(fila).toBeVisible({ timeout: 10_000 });
 
-        // Click en cualquier botón de la fila (el de eliminar)
         await fila.locator('button').last().click();
 
-        // Confirmar en el dialog — buscar el botón de acción destructiva
         const dialog = page.getByRole('alertdialog');
         await expect(dialog).toBeVisible();
         await dialog.getByRole('button').last().click();
 
-        await expect(page.getByText(EMAIL)).not.toBeVisible({ timeout: 10_000 });
+        // Esperar que el dialog cierre completamente
+        await expect(dialog).not.toBeVisible({ timeout: 10_000 });
+
+        // Verificar que el email ya no está en la tabla — solo en <td>
+        await expect(
+            page.locator('td', { hasText: EMAIL })
+        ).not.toBeVisible({ timeout: 10_000 });
     });
 
 });
