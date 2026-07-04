@@ -6,8 +6,8 @@
 
 # testing
 /coverage
-/test
-zoronka.spec.ts 
+zoronka.spec.ts
+
 # next.js
 /.next/
 /out/
@@ -39,9 +39,8 @@ next-env.d.ts
 /prisma/*.db
 
 # Playwright
-node_modules/
 /test-results/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-/playwright/.auth/
+tests/e2e/.auth/
