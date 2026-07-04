@@ -208,6 +208,24 @@ Para mejor rendimiento y persistencia en producción, configura Redis:
 
 ---
 
+## Testing E2E
+
+Este proyecto incluye tests end-to-end con Playwright que cubren:
+
+| Suite | Tests | Cobertura |
+|---|---|---|
+| Artículos | 4 | Crear, editar, verificar resumen público, eliminar |
+| Seguridad | 8 | Auth, rate limiting, tokens, acceso sin sesión |
+| Usuarios | 3 | Crear editor, límite máximo, eliminar |
+
+### Correr los tests
+
+```bash
+npm run test:e2e        # Headless
+npm run test:e2e:ui     # Con interfaz visual
+npm run test:e2e:report # Ver último reporte HTML
+```
+
 ## Licencia
 
-Proyecto académico — Universidad de La Frontera.
+Proyecto creado y autogestionado por estudiantes de la carrera de Pedagogía en Castellano de la Universidad de La Frontera.
