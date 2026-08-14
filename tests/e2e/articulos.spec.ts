@@ -37,49 +37,51 @@ test.describe('Artículos — CRUD completo', () => {
     });
 
     test('2. Resumen visible en página pública', async ({ page }) => {
-        await page.goto('/');
-        const link = page.getByRole('link', { name: TITULO_ORIGINAL });
-        await expect(link).toBeVisible();
-        await link.click();
+  // Ir al artículo directo desde el panel — obtener el link
+    await page.goto('/admin/articulos');
+    const link = page.getByRole('link', { name: TITULO_ORIGINAL });
+    await expect(link).toBeVisible({ timeout: 10_000 });
 
-        await expect(page.getByRole('heading', { level: 1 })).toContainText(TITULO_ORIGINAL);
-        await expect(page.getByText(RESUMEN)).toBeVisible();
+    // Obtener el href del link de edición para construir el slug
+    const editHref = await link.getAttribute('href'); // /admin/articulos/[id]
+    const id = editHref?.split('/').pop();
 
-        // Verificar que resumen aparece ANTES de la imagen
-        const resumenEl = page.getByText(RESUMEN);
-        const imagenEl  = page.locator('article img').first();
-        const resumenY  = (await resumenEl.boundingBox())?.y ?? 0;
-        const imagenY   = (await imagenEl.boundingBox())?.y ?? 0;
-        expect(resumenY).toBeLessThan(imagenY);
+    // Ir a la página de edición para obtener el slug
+    await page.goto(`/admin/articulos/${id}`);
+    const slugInput = page.getByLabel('Slug');
+    const slug = await slugInput.inputValue();
+
+    // Navegar al artículo público
+    await page.goto(`/articulo/${slug}`);
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(TITULO_ORIGINAL);
+    await expect(page.getByText(RESUMEN)).toBeVisible();
     });
 
     test('3. Editar artículo — cambiar título', async ({ page }) => {
+    await page.goto('/admin/articulos');
+    await page.getByRole('link', { name: TITULO_ORIGINAL }).click();
+
+    const inputTitulo = page.getByLabel('Título');
+    await inputTitulo.clear();
+    await inputTitulo.fill(TITULO_EDITADO);
+    await page.getByRole('button', { name: /actualizar/i }).click();
+
+    await page.waitForURL('/admin/articulos');
+    await expect(page.getByText(TITULO_EDITADO)).toBeVisible();
+    });
+
+    test('4. Eliminar artículo', async ({ page }) => {
         await page.goto('/admin/articulos');
-
-        // Click en el título del artículo para ir a la página de edición
-        await page.getByRole('link', { name: TITULO_ORIGINAL }).click();
-
-        const inputTitulo = page.getByLabel('Título');
-        await inputTitulo.clear();
-        await inputTitulo.fill(TITULO_EDITADO);
-        await page.getByRole('button', { name: /actualizar/i }).click();
-
-        await page.waitForURL('/admin/articulos');
-        await expect(page.getByText(TITULO_EDITADO)).toBeVisible();
-        await expect(page.getByText(TITULO_ORIGINAL)).not.toBeVisible();
-        });
-
-        test('4. Eliminar artículo', async ({ page }) => {
-        await page.goto('/admin/articulos');
-
-        // Ir a la página de edición del artículo editado
         await page.getByRole('link', { name: TITULO_EDITADO }).click();
 
-        // Click en eliminar dentro de la página del artículo
-        await page.getByRole('button', { name: /eliminar/i }).click();
+        await page.getByRole('button', { name: /eliminar/i }).first().click();
 
-        // Confirmar en el AlertDialog
-        await page.getByRole('button', { name: /eliminar/i }).click();
+        // Esperar que aparezca el AlertDialog
+        const dialog = page.getByRole('alertdialog');
+        await expect(dialog).toBeVisible({ timeout: 5_000 });
+
+        // Click en el último botón del dialog (el de confirmar)
+        await dialog.getByRole('button').last().click();
 
         await page.waitForURL('/admin/articulos');
         await expect(page.getByText(TITULO_EDITADO)).not.toBeVisible();

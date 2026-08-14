@@ -21,33 +21,31 @@ const MAX_LOGIN_ATTEMPTS = 5;
 const LOGIN_ATTEMPT_WINDOW = 15 * 60; // 15 minutes in seconds
 
 async function checkLoginAttempts(email: string): Promise<{ allowed: boolean; remainingAttempts?: number }> {
+  const normalizedEmail = email.trim().toLowerCase();
+
   if (redis) {
     try {
-      const key = `login:attempts:${email}`;
-      const count = await redis.incr(key);
-      
-      if (count === 1) {
-        await redis.expire(key, LOGIN_ATTEMPT_WINDOW);
-      }
-      
+      const key = `login:attempts:${normalizedEmail}`;
+      const count = Number(await redis.get(key) ?? 0);
+
       if (count >= MAX_LOGIN_ATTEMPTS) {
         return { allowed: false };
       }
-      
+
       return { allowed: true, remainingAttempts: MAX_LOGIN_ATTEMPTS - count };
     } catch (error) {
       console.error("Redis error, falling back to in-memory:", error);
       // Fallback to in-memory on Redis error
     }
   }
-  
+
   // In-memory fallback
   const now = Date.now();
-  const attempts = loginAttempts.get(email);
+  const attempts = loginAttempts.get(normalizedEmail);
 
   if (!attempts || now > attempts.resetTime) {
-    loginAttempts.set(email, { count: 1, resetTime: now + LOGIN_ATTEMPT_WINDOW * 1000 });
-    return { allowed: true };
+    loginAttempts.delete(normalizedEmail);
+    return { allowed: true, remainingAttempts: MAX_LOGIN_ATTEMPTS };
   }
 
   if (attempts.count >= MAX_LOGIN_ATTEMPTS) {
@@ -58,41 +56,45 @@ async function checkLoginAttempts(email: string): Promise<{ allowed: boolean; re
 }
 
 async function recordFailedLogin(email: string) {
+  const normalizedEmail = email.trim().toLowerCase();
+
   if (redis) {
     try {
-      const key = `login:attempts:${email}`;
-      await redis.incr(key);
+      const key = `login:attempts:${normalizedEmail}`;
+      const count = await redis.incr(key);
       await redis.expire(key, LOGIN_ATTEMPT_WINDOW);
       return;
     } catch (error) {
       console.error("Redis error, falling back to in-memory:", error);
     }
   }
-  
+
   // In-memory fallback
   const now = Date.now();
-  const attempts = loginAttempts.get(email);
+  const attempts = loginAttempts.get(normalizedEmail);
 
   if (!attempts || now > attempts.resetTime) {
-    loginAttempts.set(email, { count: 1, resetTime: now + LOGIN_ATTEMPT_WINDOW * 1000 });
+    loginAttempts.set(normalizedEmail, { count: 1, resetTime: now + LOGIN_ATTEMPT_WINDOW * 1000 });
   } else {
     attempts.count++;
   }
 }
 
 async function recordSuccessfulLogin(email: string) {
+  const normalizedEmail = email.trim().toLowerCase();
+
   if (redis) {
     try {
-      const key = `login:attempts:${email}`;
+      const key = `login:attempts:${normalizedEmail}`;
       await redis.del(key);
       return;
     } catch (error) {
       console.error("Redis error, falling back to in-memory:", error);
     }
   }
-  
+
   // In-memory fallback
-  loginAttempts.delete(email);
+  loginAttempts.delete(normalizedEmail);
 }
 
 declare module "next-auth" {
@@ -130,9 +132,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const parsed = loginSchema.safeParse(credentials);
         if (!parsed.success) return null;
 
-        const email = parsed.data.email;
-        
-        // Check login attempts
+        const email = parsed.data.email.trim().toLowerCase();
+
+        // Check login attempts before validating password
         const attemptCheck = await checkLoginAttempts(email);
         if (!attemptCheck.allowed) {
           console.warn(`Too many login attempts for email: ${email}`);

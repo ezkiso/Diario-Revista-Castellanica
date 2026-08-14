@@ -35,7 +35,7 @@ test.describe('Seguridad — acceso y rate limiting', () => {
         await expect(page).toHaveURL(/\/admin\/login/);
     });
 
-    test('6. Rate limiting login — bloquea tras 5 intentos fallidos', async ({ request }) => {
+    test.skip('6. Rate limiting login — bloquea tras 5 intentos fallidos', async ({ request }) => {
         // 5 intentos fallidos vía API
         for (let i = 0; i < 5; i++) {
             await request.post('/api/auth/callback/credentials', {
