@@ -76,7 +76,7 @@ export default function RootLayout({
         <OrganizationJsonLd />
 
         {/* ── 1. Barra institucional ── */}
-        <div style={{ backgroundColor: "#4A1A7A" }} className="text-white text-xs py-1.5 px-4 text-center tracking-wide">
+        <div style={{ backgroundColor: "#7B1E3A" }} className="text-white text-xs py-1.5 px-4 text-center tracking-wide">
           Estudiantes de Ped. en Castellano{" "}
           <span className="opacity-80">UFRO - Temuco</span>
         </div>
@@ -88,7 +88,7 @@ export default function RootLayout({
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/logo-1.png"
-                alt="Logo Zoronka-Ko"
+                alt="Logo Mal Sentados"
                 width={56}
                 height={56}
                 className="rounded"
@@ -99,7 +99,7 @@ export default function RootLayout({
                 Diario y Revista
               </p>
               <p className="text-ufro-ink font-serif text-xl font-semibold leading-tight">
-                Zoronka-Ko
+                Mal Sentados
               </p>
             </Link>
           </div>
@@ -132,21 +132,21 @@ export default function RootLayout({
         </main>
 
         {/* ── 5. Footer ── */}
-        <footer style={{ backgroundColor: "#4A1A7A" }} className="text-white mt-16">
+        <footer style={{ backgroundColor: "#7B1E3A" }} className="text-white mt-16">
           <div className="max-w-6xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-2 gap-8">
 
             {/* Identidad */}
             <div>
               <p className="font-serif text-base font-semibold mb-2">{SITE_NAME}</p>
-              <p className="text-sm text-purple-200 leading-relaxed">{SITE_DESCRIPTION}</p>
+              <p className="text-sm text-rose-100 leading-relaxed">{SITE_DESCRIPTION}</p>
             </div>
 
             {/* Institución */}
             <div>
-              <p className="text-xs font-semibold text-purple-300 uppercase tracking-widest mb-3">
+              <p className="text-xs font-semibold text-rose-200 uppercase tracking-widest mb-3">
                 Universidad de La Frontera
               </p>
-              <address className="not-italic text-sm text-purple-200 leading-relaxed">
+              <address className="not-italic text-sm text-rose-100 leading-relaxed">
                 Av. Francisco Salazar 01145
                 <br />
                 Temuco, Chile
@@ -155,7 +155,7 @@ export default function RootLayout({
 
             {/* Secciones */}
             <div>
-              <p className="text-xs font-semibold text-purple-300 uppercase tracking-widest mb-3">
+              <p className="text-xs font-semibold text-rose-200 uppercase tracking-widest mb-3">
                 Secciones
               </p>
               <ul className="space-y-2">
@@ -163,7 +163,7 @@ export default function RootLayout({
                   <li key={href}>
                     <Link
                       href={href}
-                      className="text-sm text-purple-200 hover:text-white transition-colors"
+                      className="text-sm text-rose-100 hover:text-white transition-colors"
                     >
                       {label}
                     </Link>
@@ -176,7 +176,7 @@ export default function RootLayout({
 
             {/* Redes Sociales — dentro del grid */}
             <div>
-              <p className="text-xs font-semibold text-purple-300 uppercase tracking-widest mb-3">
+              <p className="text-xs font-semibold text-rose-200 uppercase tracking-widest mb-3">
                 Redes Sociales
               </p>
               <div className="flex flex-col gap-3">
@@ -185,7 +185,7 @@ export default function RootLayout({
                 <a  href="https://www.youtube.com/@Castellanocomunica777"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-purple-200 hover:text-white transition-colors"
+                  className="flex items-center gap-2 text-sm text-rose-100 hover:text-white transition-colors"
                 >
                   <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/>
@@ -197,7 +197,7 @@ export default function RootLayout({
                 <a  href="https://www.instagram.com/castellanoufro"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-purple-200 hover:text-white transition-colors"
+                  className="flex items-center gap-2 text-sm text-rose-100 hover:text-white transition-colors"
                 >
                   <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8 0 3.2 0 3.6-.1 4.8-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1-3.2 0-3.6 0-4.8-.1-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12c0-3.2 0-3.6.1-4.8C2.4 3.9 4 2.3 7.2 2.3c1.2-.1 1.6-.1 4.8-.1zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1.0 8.3 0 8.7 0 12c0 3.3 0 3.7.1 4.9.2 4.4 2.6 6.8 7 7C8.3 24 8.7 24 12 24c3.3 0 3.7 0 4.9-.1 4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9 0-3.3 0-3.7-.1-4.9C23.7 2.7 21.3.3 16.9.1 15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4A6.2 6.2 0 0 0 12 5.8zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.8 1.4 1.4 0 0 0 0-2.8z"/>
@@ -212,7 +212,7 @@ export default function RootLayout({
           {/* Copyright */}
           <div className="border-t border-white/10">
             <div className="max-w-6xl mx-auto px-4 py-4">
-              <p className="text-xs text-purple-300">
+              <p className="text-xs text-rose-200">
                 © {new Date().getFullYear()} {SITE_NAME}. Todos los derechos reservados.
               </p>
             </div>

@@ -1,6 +1,6 @@
 import { TipoArticulo } from "@prisma/client";
 
-export const SITE_NAME = "Zoronka-Ko";
+export const SITE_NAME = "Mal Sentados";
 export const SITE_DESCRIPTION =
   "Proyecto creado y autogestionado por estudiantes de la carrera de Pedagogía en Castellano de la Universidad de La Frontera.";
 export const SITE_URL = process.env.AUTH_URL ?? "https://diario-revista-castellanica.vercel.app";
