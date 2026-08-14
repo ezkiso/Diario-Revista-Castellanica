@@ -46,11 +46,18 @@ export const createUserSchema = z.object({
       const domain = email.split("@")[1];
       return !tempEmailDomains.includes(domain);
     }, "No se permiten emails de servicios temporales"),
-    nombre: z
-      .string()
-      .min(2, "Mínimo 2 caracteres")
-      .max(100, "Máximo 100 caracteres")
-      .trim(),
+  nombre: z
+    .string()
+    .min(2, "Mínimo 2 caracteres")
+    .max(100, "Máximo 100 caracteres")
+    .trim(),
+  password: z
+    .string()
+    .min(12, "Mínimo 12 caracteres")
+    .regex(/[A-Z]/, "Debe contener al menos una mayúscula")
+    .regex(/[a-z]/, "Debe contener al menos una minúscula")
+    .regex(/[0-9]/, "Debe contener al menos un número")
+    .regex(/[^A-Za-z0-9]/, "Debe contener al menos un carácter especial"),
   rol: z.nativeEnum(Rol),
 });
 

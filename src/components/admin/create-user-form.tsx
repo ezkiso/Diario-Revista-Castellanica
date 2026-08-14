@@ -32,15 +32,16 @@ export function CreateUserForm({ canCreateAdmin }: CreateUserFormProps) {
     setSuccess(null);
 
     const form = new FormData(e.currentTarget);
-    const email  = form.get("email")  as string;
-    const nombre = form.get("nombre") as string;
-    const rol    = form.get("rol")    as Rol;
+    const email    = form.get("email")    as string;
+    const nombre   = form.get("nombre")   as string;
+    const password = form.get("password") as string;
+    const rol      = form.get("rol")      as Rol;
 
     try {
       const response = await fetch("/api/admin/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, nombre, rol }),
+        body: JSON.stringify({ email, nombre, password, rol }),
       });
 
       const data = await response.json();
@@ -87,6 +88,22 @@ export function CreateUserForm({ canCreateAdmin }: CreateUserFormProps) {
             placeholder="usuario@ufro.cl"
           />
         </div>
+      </div>
+
+      <div>
+        <Label htmlFor="password">Contraseña</Label>
+        <Input
+          id="password"
+          name="password"
+          type="password"
+          required
+          minLength={12}
+          className="mt-1"
+          placeholder="Min 12 caracteres: Mayús, minús, número, símbolo"
+        />
+        <p className="text-xs text-muted-foreground mt-1">
+          Mínimo 12 caracteres, mayúscula, minúscula, número y símbolo
+        </p>
       </div>
 
       <div>

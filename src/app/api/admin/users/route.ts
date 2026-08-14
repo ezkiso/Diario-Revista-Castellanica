@@ -3,7 +3,6 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { createUserSchema } from "@/lib/validations";
 import type { Rol } from "@prisma/client";
-import { enviarEmailConfigurarCuenta } from "@/lib/email";
 import Redis from "ioredis";
 
 // Redis client for rate limiting
@@ -84,7 +83,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Datos inválidos", details: parsed.error.errors }, { status: 400 });
     }
 
-    const { email, nombre, rol } = parsed.data;
+    const { email, nombre, password, rol } = parsed.data;
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
@@ -103,30 +102,22 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Generar token de verificación
-    const { randomBytes } = await import("crypto");
-    const token  = randomBytes(32).toString("hex");
-    const expiry = new Date(Date.now() + 48 * 60 * 60 * 1000); // 48h
+    // Hash de la contraseña
+    const bcryptModule = await import("bcryptjs");
+    const bcryptFn = bcryptModule.default;
+    const passwordHash = await bcryptFn.hash(password, 12);
 
-    // Crear usuario SIN contraseña
+    // Crear usuario CON contraseña hasheada
     const user = await prisma.user.create({
       data: {
         email,
         nombre,
         rol: rol as Rol,
-        verificado: false,
-        verificationToken: token,
-        verificationTokenExpiry: expiry,
+        passwordHash,
+        verificado: true,
       },
       select: { id: true, email: true, nombre: true, rol: true, createdAt: true },
     });
-
-    // Intentar enviar email (no falla si no hay dominio)
-    try {
-      await enviarEmailConfigurarCuenta({ email, nombre, token });
-    } catch (error) {
-      console.error("Email no enviado:", error);
-    }
 
     return NextResponse.json(
       { message: "Usuario creado exitosamente", user },
