@@ -87,7 +87,7 @@ export default function RootLayout({
             <Link href="/" aria-label={`${SITE_NAME} — Inicio`}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/images/icon.png"
+                src="/images/icon.jpeg"
                 alt="Logo Mal Sentados"
                 width={100}
                 height={100}
