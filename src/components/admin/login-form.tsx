@@ -28,14 +28,16 @@ export function LoginForm() {
       redirect: false,
     });
 
-    setLoading(false);
     if (result?.error) {
+      setLoading(false);
       setError("Credenciales incorrectas");
       return;
     }
-    
-    router.push(callbackUrl);
-    router.refresh();
+
+    // Navegación dura: garantiza que la cookie de sesión ya esté
+    // presente cuando el middleware evalúe la ruta /admin, evitando
+    // el bug de "vuelve al login y hay que recargar a mano".
+    window.location.href = callbackUrl;
   }
 
   return (
