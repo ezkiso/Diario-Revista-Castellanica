@@ -28,7 +28,7 @@ const OG_IMAGE = `${SITE_URL}/images/og-image.png`;
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   icons: {
-    icon: "/images/icon.ico",
+    icon: "/images/favicon.ico",
   },
   title: {
     default: SITE_NAME,
@@ -87,10 +87,10 @@ export default function RootLayout({
             <Link href="/" aria-label={`${SITE_NAME} — Inicio`}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/images/logo-1.png"
+                src="/images/icon.png"
                 alt="Logo Mal Sentados"
-                width={56}
-                height={56}
+                width={100}
+                height={100}
                 className="rounded"
               />
             </Link>
