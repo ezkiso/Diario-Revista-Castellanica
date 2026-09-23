@@ -62,7 +62,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Revistas publicadas
   const revistas = await prisma.revista.findMany({
     where: { publicada: true },
-    select: { anio: true, createdAt: true },
   });
 
   const revistaRoutes: MetadataRoute.Sitemap = revistas.map((r) => ({
