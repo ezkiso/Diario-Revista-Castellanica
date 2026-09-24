@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,7 +10,6 @@ import { PasswordInput } from "@/components/ui/password-input";
 import Link from "next/link"; // ← NUEVO
 
 export function LoginForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") ?? "/admin";
   const [error, setError] = useState<string | null>(null);
@@ -28,16 +27,27 @@ export function LoginForm() {
       redirect: false,
     });
 
-    if (result?.error) {
+    if (!result?.ok || result.error) {
       setLoading(false);
       setError("Credenciales incorrectas");
       return;
     }
 
-    // Navegación dura: garantiza que la cookie de sesión ya esté
-    // presente cuando el middleware evalúe la ruta /admin, evitando
-    // el bug de "vuelve al login y hay que recargar a mano".
-    window.location.href = callbackUrl;
+    // Confirma que el navegador ya puede leer la cookie antes de entrar al panel.
+    const sessionResponse = await fetch("/api/auth/session", {
+      cache: "no-store",
+    });
+    const session = (await sessionResponse.json()) as {
+      user?: { id?: string };
+    };
+
+    if (!session.user?.id) {
+      setLoading(false);
+      setError("No se pudo confirmar la sesión. Intenta nuevamente.");
+      return;
+    }
+
+    window.location.assign(callbackUrl);
   }
 
   return (
