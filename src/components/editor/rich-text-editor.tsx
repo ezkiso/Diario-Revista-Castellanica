@@ -1,7 +1,9 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { Extension } from "@tiptap/core";
 import { useEditor, EditorContent } from "@tiptap/react";
+import { Plugin } from "@tiptap/pm/state";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import Link from "@tiptap/extension-link";
@@ -26,16 +28,37 @@ type RichTextEditorProps = {
   onChange: (html: string) => void;
   placeholder?: string;
   className?: string;
+  maxCharacters?: number;
 };
+
+const CharacterLimit = Extension.create<{ limit: number }>({
+  name: "characterLimit",
+  addOptions() {
+    return { limit: 5000 };
+  },
+  addProseMirrorPlugins() {
+    const limit = this.options.limit;
+    return [
+      new Plugin({
+        filterTransaction: (transaction, state) =>
+          !transaction.docChanged ||
+          transaction.doc.textContent.length <= limit ||
+          transaction.doc.textContent.length < state.doc.textContent.length,
+      }),
+    ];
+  },
+});
 
 export function RichTextEditor({
   value,
   onChange,
   placeholder = "Escriba el contenido aquí…",
   className,
+  maxCharacters = 5000,
 }: RichTextEditorProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [characterCount, setCharacterCount] = useState(0);
 
   const editor = useEditor({
     extensions: [
@@ -48,9 +71,14 @@ export function RichTextEditor({
       }),
       Image.configure({ inline: false }),
       Placeholder.configure({ placeholder }),
+      CharacterLimit.configure({ limit: maxCharacters }),
     ],
     content: value,
-    onUpdate: ({ editor: ed }) => onChange(ed.getHTML()),
+    onCreate: ({ editor: ed }) => setCharacterCount(ed.getText().length),
+    onUpdate: ({ editor: ed }) => {
+      onChange(ed.getHTML());
+      setCharacterCount(ed.getText().length);
+    },
     editorProps: {
       attributes: {
         class:
@@ -188,6 +216,9 @@ export function RichTextEditor({
         </ToolbarButton>
       </div>
       <EditorContent editor={editor} />
+      <p className="px-3 py-2 text-right text-xs text-muted-foreground" aria-live="polite">
+        {characterCount}/{maxCharacters} caracteres
+      </p>
       <input
         ref={fileInputRef}
         type="file"

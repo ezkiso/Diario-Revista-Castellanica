@@ -6,6 +6,9 @@ Stack: **Next.js 15**, **TypeScript**, **Tailwind CSS**, **Shadcn/UI**, **Prisma
 
 Documentación de arquitectura: [ARCHITECTURE.md](./ARCHITECTURE.md)
 
+Documentación de entrega: [DOCUMENTO-ENTREGA.md](./DOCUMENTO-ENTREGA.md)
+Guía para usuarios: [GUIA-USUARIO.md](./GUIA-USUARIO.md)
+
 ---
 
 ## Elección de base de datos: Neon PostgreSQL

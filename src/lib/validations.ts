@@ -11,6 +11,17 @@ const imageUrlOrPath = z.string().refine(
   { message: "Debe ser una URL válida o ruta de imagen subida" }
 );
 
+const richTextContent = z
+  .string()
+  .min(10, "El contenido es obligatorio")
+  .refine(
+    (value) =>
+      value
+        .replace(/<[^>]*>/g, "")
+        .replace(/&(?:#\d+|#x[\da-f]+|[a-z]+);/gi, "x").length <= 5000,
+    "Máximo 5000 caracteres"
+  );
+
 export const loginSchema = z.object({
   email: z
     .string()
@@ -65,8 +76,8 @@ export type CreateUserInput = z.infer<typeof createUserSchema>;
 
 export const articuloSchema = z.object({
   titulo: z.string().min(5, "Mínimo 5 caracteres").max(200),
-  resumen: z.string().min(20, "Mínimo 20 caracteres").max(500),
-  contenido: z.string().min(10, "El contenido es obligatorio"),
+  resumen: z.string().min(20, "Mínimo 20 caracteres").max(5000, "Máximo 5000 caracteres"),
+  contenido: richTextContent,
   imagenDestacada: imageUrlOrPath.optional().or(z.literal("")),
   tipo: z.nativeEnum(TipoArticulo),
   fechaPublicacion: z.preprocess(
@@ -80,7 +91,7 @@ export const articuloSchema = z.object({
 export const revistaSchema = z.object({
   nombre: z.string().min(3).max(120),
   anio: z.coerce.number().int().min(2000).max(2100),
-  descripcion: z.string().min(10),
+  descripcion: z.string().min(10).max(5000, "Máximo 5000 caracteres"),
   portada: imageUrlOrPath.optional().or(z.literal("")),
   publicada: z.boolean(),
 });
@@ -88,7 +99,7 @@ export const revistaSchema = z.object({
 export const contenidoRevistaSchema = z.object({
   titulo: z.string().min(2).max(200),
   autor: z.string().min(2).max(120),
-  contenido: z.string().min(10),
+  contenido: richTextContent,
   imagen: imageUrlOrPath.optional().or(z.literal("")),
   revistaId: z.string().min(1, "ID de revista requerido"), // ← acepta cualquier formato
 });
@@ -97,7 +108,7 @@ export const contenidoRevistaSchema = z.object({
 export const editarContenidoRevistaSchema = z.object({
   titulo: z.string().min(2).max(200),
   autor: z.string().min(2).max(120),
-  contenido: z.string().min(10),
+  contenido: richTextContent,
   imagen: imageUrlOrPath.optional().or(z.literal("")),
 });
 

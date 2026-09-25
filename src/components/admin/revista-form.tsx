@@ -123,6 +123,7 @@ export function RevistaForm({ revista }: RevistaFormProps) {
           id="descripcion"
           name="descripcion"
           required
+          maxLength={5000}
           rows={4}
           defaultValue={revista?.descripcion}
           className="mt-1"

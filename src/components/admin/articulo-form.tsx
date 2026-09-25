@@ -152,6 +152,7 @@ export function ArticuloForm({ articulo }: ArticuloFormProps) {
           id="resumen"
           name="resumen"
           required
+          maxLength={5000}
           rows={3}
           defaultValue={articulo?.resumen}
           className="mt-1"
