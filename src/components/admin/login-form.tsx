@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,6 +10,7 @@ import { PasswordInput } from "@/components/ui/password-input";
 import Link from "next/link"; // ← NUEVO
 
 export function LoginForm() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") ?? "/admin";
   const [error, setError] = useState<string | null>(null);
@@ -47,7 +48,14 @@ export function LoginForm() {
       return;
     }
 
-    window.location.assign(callbackUrl);
+    const destination = new URL(callbackUrl, window.location.origin);
+    const nextPath =
+      destination.origin === window.location.origin
+        ? `${destination.pathname}${destination.search}${destination.hash}`
+        : "/admin";
+
+    router.replace(nextPath);
+    router.refresh();
   }
 
   return (
