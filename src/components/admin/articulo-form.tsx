@@ -169,7 +169,7 @@ export function ArticuloForm({ articulo }: ArticuloFormProps) {
                 src={imagenUrl}
                 alt="Imagen destacada"
                 fill
-                className="object-cover"
+                className="object-contain"
                 onError={() => {
                   console.error("Error al cargar imagen");
                 }}

@@ -39,7 +39,7 @@ function HeroArticleComponent({
             src={imageSrc}
             alt=""
             fill
-            className="object-cover hover:opacity-95 transition-opacity"
+            className="object-contain"
             priority
             sizes="(max-width: 1024px) 100vw, 50vw"
           />

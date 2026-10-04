@@ -42,7 +42,7 @@ export default async function RevistaIndexPage() {
                     src={revista.portada}
                     alt={`Portada ${revista.nombre}`}
                     fill
-                    className="object-cover group-hover:scale-105 transition-transform"
+                    className="object-contain"
                     sizes="(max-width: 768px) 100vw, 33vw"
                   />
                 ) : (

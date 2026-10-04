@@ -21,7 +21,7 @@ function RevistaFeaturedComponent({ revista }: RevistaFeaturedProps) {
             src={revista.portada}
             alt={`Portada Revista Castellánica ${revista.anio}`}
             fill
-            className="object-cover group-hover:scale-105 transition-transform duration-300"
+            className="object-contain"
             sizes="(max-width: 768px) 100vw, 33vw"
           />
         ) : (

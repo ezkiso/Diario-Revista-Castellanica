@@ -53,7 +53,7 @@ export default async function RevistaAnioPage({ params }: Props) {
                 src={revista.portada}
                 alt={`Portada ${revista.nombre}`}
                 fill
-                className="object-cover"
+                className="object-contain"
                 sizes="240px"
               />
             </div>
@@ -92,7 +92,7 @@ export default async function RevistaAnioPage({ params }: Props) {
                         src={item.imagen}
                         alt=""
                         fill
-                        className="object-cover"
+                        className="object-contain"
                         sizes="(max-width: 512px) 100vw, 512px"
                       />
                     </div>

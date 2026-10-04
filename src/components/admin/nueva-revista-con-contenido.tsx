@@ -263,7 +263,7 @@ export function NuevaRevistaConContenido() {
                     src={portadaUrl}
                     alt="Portada de revista"
                     fill
-                    className="object-cover"
+                    className="object-contain"
                   />
                 </div>
                 <button
@@ -396,7 +396,7 @@ export function NuevaRevistaConContenido() {
                       src={contenidoForm.imagen}
                       alt="Imagen del contenido"
                       fill
-                      className="object-cover"
+                      className="object-contain"
                     />
                   </div>
                   <button
@@ -514,7 +514,7 @@ export function NuevaRevistaConContenido() {
                       src={c.imagen}
                       alt={c.titulo}
                       fill
-                      className="rounded-lg object-cover"
+                      className="rounded-lg object-contain"
                     />
                   </div>
                 )}

@@ -92,7 +92,7 @@ export default async function ArticuloPage({ params }: Props) {
             src={imageSrc}
             alt={article.titulo}
             fill
-            className="object-cover"
+            className="object-contain"
             priority
             sizes="(max-width: 896px) 100vw, 896px"
           />

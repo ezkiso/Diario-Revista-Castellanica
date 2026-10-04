@@ -106,7 +106,7 @@ export function ContenidoRevistaForm({ revistaId }: { revistaId: string }) {
                 src={imagenUrl}
                 alt="Imagen del contenido"
                 fill
-                className="object-cover"
+                className="object-contain"
               />
             </div>
             <button

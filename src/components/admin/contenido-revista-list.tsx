@@ -53,7 +53,7 @@ export function ContenidoRevistaList({ contenidos }: ContenidoRevistaListProps) 
                   src={c.imagen}
                   alt={c.titulo}
                   fill
-                  className="rounded-lg object-cover"
+                  className="rounded-lg object-contain"
                   unoptimized
                 />
               </div>

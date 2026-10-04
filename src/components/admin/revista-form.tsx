@@ -140,7 +140,7 @@ export function RevistaForm({ revista }: RevistaFormProps) {
                 src={portadaUrl}
                 alt="Portada de revista"
                 fill
-                className="object-cover"
+                className="object-contain"
                 onError={() => {
                   console.error("Error al cargar imagen");
                 }}

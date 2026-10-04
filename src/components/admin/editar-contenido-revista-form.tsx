@@ -142,7 +142,7 @@ export function EditarContenidoRevistaForm({
                 src={imagenUrl}
                 alt="Imagen del contenido"
                 fill
-                className="object-cover"
+                className="object-contain"
               />
             </div>
             <button
