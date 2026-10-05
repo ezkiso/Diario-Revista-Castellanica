@@ -37,7 +37,7 @@ web/
 ├── src/
 │   ├── app/               # App Router
 │   │   ├── page.tsx       # Home (hero + grid)
-│   │   ├── noticias|opinion|cartas-al-director|difusion/
+│   │   ├── noticias|opinion|pensamiento-y-critica|difusion/
 │   │   ├── articulo/[slug]/
 │   │   ├── revista-castellanica/[anio]/
 │   │   ├── admin/

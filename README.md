@@ -140,7 +140,7 @@ DATABASE_URL="tu-url-produccion" DIRECT_URL="tu-url-produccion" npm run db:seed
 | `/` | Home con noticia principal + grid |
 | `/noticias` | Categoría noticias |
 | `/opinion` | Columnas de opinión |
-| `/cartas-al-director` | Pensamiento y Crítica |
+| `/pensamiento-y-critica` | Pensamiento y Crítica |
 | `/difusion` | Difusión |
 | `/articulo/[slug]` | Artículo completo + SEO |
 | `/revista-castellanica` | Archivo de ediciones |

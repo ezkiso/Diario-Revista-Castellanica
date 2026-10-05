@@ -107,7 +107,7 @@ function revalidatePaths() {
   revalidatePath("/");
   revalidatePath("/conversaciones");
   revalidatePath("/opinion");
-  revalidatePath("/cartas-al-director");
+  revalidatePath("/pensamiento-y-critica");
   revalidatePath("/difusion");
   revalidatePath("/admin");
   revalidatePath("/admin/articulos");

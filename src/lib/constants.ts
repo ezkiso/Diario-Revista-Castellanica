@@ -15,14 +15,14 @@ export const TIPO_ARTICULO_LABELS: Record<TipoArticulo, string> = {
 export const TIPO_ARTICULO_ROUTES: Record<TipoArticulo, string> = {
   CONVERSACIONES: "/conversaciones",
   OPINION: "/opinion",
-  CARTA_DIRECTOR: "/cartas-al-director",
+  CARTA_DIRECTOR: "/pensamiento-y-critica",
   DIFUSION: "/difusion",
 };
 
 export const NAV_LINKS = [
   { href: "/conversaciones", label: "Conversaciones" },
   { href: "/opinion", label: "Opinión" },
-  { href: "/cartas-al-director", label: "Pensamiento y Crítica" },
+  { href: "/pensamiento-y-critica", label: "Pensamiento y Crítica" },
   { href: "/difusion", label: "Difusión" },
   { href: "/revista-castellanica", label: "Revista Castellánica" },
 ] as const;
@@ -40,6 +40,6 @@ export const PLACEHOLDER_IMAGE =
   export const TIPO_HREFS: Record<TipoArticulo, string> = {
     CONVERSACIONES: "/conversaciones",
     OPINION:        "/opinion",
-    CARTA_DIRECTOR: "/cartas-al-director",
+    CARTA_DIRECTOR: "/pensamiento-y-critica",
     DIFUSION:       "/difusion",
   };
