@@ -14,7 +14,7 @@ El sitio permite:
 
 - Leer el artículo destacado desde la portada.
 - Revisar las publicaciones recientes.
-- Filtrar el contenido por sección: conversaciones, opinión, cartas al director y difusión.
+- Filtrar el contenido por sección: conversaciones, opinión, pensamiento y crítica, y difusión.
 - Abrir un artículo completo seleccionando su título o imagen.
 - Consultar el archivo de la Revista Castellánica.
 - Seleccionar un año para revisar una edición y sus contenidos.

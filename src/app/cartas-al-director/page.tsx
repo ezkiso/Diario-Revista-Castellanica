@@ -7,12 +7,12 @@ import { CategoryPage } from "@/components/articles/category-page";
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Cartas al Director",
-  description: `Lee las cartas de estudiantes, académicos y lectores dirigidas a la redacción del ${SITE_NAME}, medio digital de Pedagogía en Castellano y Comunicación de la UFRO.`,
+  title: "Pensamiento y Crítica",
+  description: `Lee artículos de pensamiento y crítica de estudiantes, académicos y lectores del ${SITE_NAME}, medio digital de Pedagogía en Castellano y Comunicación de la UFRO.`,
   alternates: { canonical: `${SITE_URL}/cartas-al-director` },
   openGraph: {
-    title: `Cartas al Director | ${SITE_NAME}`,
-    description: `Voces de la comunidad universitaria dirigidas a la redacción del ${SITE_NAME}.`,
+    title: `Pensamiento y Crítica | ${SITE_NAME}`,
+    description: `Análisis y reflexiones de la comunidad universitaria en ${SITE_NAME}.`,
     url: `${SITE_URL}/cartas-al-director`,
     type: "website",
   },
@@ -22,8 +22,8 @@ export default function CartasPage() {
   return (
     <CategoryPage
       tipo={TipoArticulo.CARTA_DIRECTOR}
-      title="Cartas al Director"
-      description="Voces de estudiantes, académicos y lectores dirigidas a la redacción."
+      title="Pensamiento y Crítica"
+      description="Análisis y reflexiones de estudiantes, académicos y lectores."
     />
   );
 }

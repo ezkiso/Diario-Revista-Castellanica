@@ -19,7 +19,7 @@ El sistema permite publicar y consultar contenidos editoriales de la Carrera de 
 ### Sitio público
 
 - Página de inicio con artículo destacado y publicaciones recientes.
-- Secciones de conversaciones, opinión, cartas al director y difusión.
+- Secciones de conversaciones, opinión, pensamiento y crítica, y difusión.
 - Vista individual de cada artículo con URL amigable.
 - Archivo de la Revista Castellánica por año.
 - Vista de cada edición con sus contenidos.

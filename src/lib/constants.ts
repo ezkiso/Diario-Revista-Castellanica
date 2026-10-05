@@ -8,7 +8,7 @@ export const SITE_URL = process.env.AUTH_URL ?? "https://diario-revista-castella
 export const TIPO_ARTICULO_LABELS: Record<TipoArticulo, string> = {
   CONVERSACIONES: "Conversaciones",
   OPINION: "Opinión",
-  CARTA_DIRECTOR: "Cartas al Director",
+  CARTA_DIRECTOR: "Pensamiento y Crítica",
   DIFUSION: "Difusión",
 };
 
@@ -22,7 +22,7 @@ export const TIPO_ARTICULO_ROUTES: Record<TipoArticulo, string> = {
 export const NAV_LINKS = [
   { href: "/conversaciones", label: "Conversaciones" },
   { href: "/opinion", label: "Opinión" },
-  { href: "/cartas-al-director", label: "Cartas al Director" },
+  { href: "/cartas-al-director", label: "Pensamiento y Crítica" },
   { href: "/difusion", label: "Difusión" },
   { href: "/revista-castellanica", label: "Revista Castellánica" },
 ] as const;
@@ -33,7 +33,7 @@ export const PLACEHOLDER_IMAGE =
   export const TIPO_LABELS: Record<TipoArticulo, string> = {
     CONVERSACIONES: "Conversaciones",
     OPINION:        "Opinión",
-    CARTA_DIRECTOR: "Cartas al Director",
+    CARTA_DIRECTOR: "Pensamiento y Crítica",
     DIFUSION:       "Difusión",
   };
 

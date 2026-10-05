@@ -10,7 +10,7 @@ export function SiteFooter() {
             <h2 className="font-serif text-xl font-bold mb-2">{SITE_NAME}</h2>
             <p className="text-sm text-white/80 max-w-md">
               Medio digital de la Carrera de Pedagogía en Castellano y Comunicación.
-              Noticias, opinión, cartas al director, difusión y la Revista Castellánica.
+              Noticias, opinión, pensamiento y crítica, difusión y la Revista Castellánica.
             </p>
           </div>
 
