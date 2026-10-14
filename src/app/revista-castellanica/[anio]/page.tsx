@@ -17,20 +17,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const revista = await getRevistaByAnio(parseInt(anio, 10));
   if (!revista) return { title: "Edición no encontrada" };
 
+  const imagenCompartida =
+    revista.portada ||
+    revista.contenidos.find((contenido) => contenido.imagen)?.imagen ||
+    SITE_OG_IMAGE;
+
   return {
     title: revista.nombre,
     description: revista.descripcion,
     openGraph: {
       title: revista.nombre,
       description: revista.descripcion,
-      images: [revista.portada || SITE_OG_IMAGE],
+      images: [{ url: imagenCompartida, alt: revista.nombre }],
       url: `${SITE_URL}/revista-castellanica/${revista.anio}`,
     },
     twitter: {
       card: "summary_large_image",
       title: revista.nombre,
       description: revista.descripcion,
-      images: [revista.portada || SITE_OG_IMAGE],
+      images: [imagenCompartida],
     },
   };
 }
