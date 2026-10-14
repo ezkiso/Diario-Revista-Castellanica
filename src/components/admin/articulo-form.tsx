@@ -276,7 +276,6 @@ export function ArticuloForm({ articulo }: ArticuloFormProps) {
         <RichTextEditor
           value={contenido}
           onChange={setContenido}
-          maxCharacters={10000}
           className="mt-1"
         />
       </div>

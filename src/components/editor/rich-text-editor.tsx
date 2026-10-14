@@ -54,7 +54,7 @@ export function RichTextEditor({
   onChange,
   placeholder = "Escriba el contenido aquí…",
   className,
-  maxCharacters = 5000,
+  maxCharacters,
 }: RichTextEditorProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
@@ -71,7 +71,9 @@ export function RichTextEditor({
       }),
       Image.configure({ inline: false }),
       Placeholder.configure({ placeholder }),
-      CharacterLimit.configure({ limit: maxCharacters }),
+      ...(maxCharacters === undefined
+        ? []
+        : [CharacterLimit.configure({ limit: maxCharacters })]),
     ],
     content: value,
     onCreate: ({ editor: ed }) => setCharacterCount(ed.getText().length),
@@ -217,7 +219,9 @@ export function RichTextEditor({
       </div>
       <EditorContent editor={editor} />
       <p className="px-3 py-2 text-right text-xs text-muted-foreground" aria-live="polite">
-        {characterCount}/{maxCharacters} caracteres
+        {maxCharacters === undefined
+          ? `${characterCount} caracteres`
+          : `${characterCount}/${maxCharacters} caracteres`}
       </p>
       <input
         ref={fileInputRef}
