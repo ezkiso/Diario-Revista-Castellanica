@@ -4,7 +4,7 @@ export const revalidate = 300;
 import type { Metadata } from "next";
 import { TipoArticulo } from "@prisma/client";
 import { CategoryPage } from "@/components/articles/category-page";
-import { SITE_NAME, SITE_URL } from "@/lib/constants";
+import { SITE_NAME, SITE_OG_IMAGE, SITE_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Conversaciones",
@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     description: `Discusiones y reflexiones sobre la pedagogía en castellano y la comunidad educativa.`,
     url: `${SITE_URL}/conversaciones`,
     type: "website",
+    images: [SITE_OG_IMAGE],
   },
 };
 

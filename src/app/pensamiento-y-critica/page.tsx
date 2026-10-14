@@ -4,7 +4,7 @@ export const revalidate = 300;
 import type { Metadata } from "next";
 import { TipoArticulo } from "@prisma/client";
 import { CategoryPage } from "@/components/articles/category-page";
-import { SITE_NAME, SITE_URL } from "@/lib/constants";
+import { SITE_NAME, SITE_OG_IMAGE, SITE_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Pensamiento y Crítica",
@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     description: `Análisis y reflexiones de la comunidad universitaria en ${SITE_NAME}.`,
     url: `${SITE_URL}/pensamiento-y-critica`,
     type: "website",
+    images: [SITE_OG_IMAGE],
   },
 };
 

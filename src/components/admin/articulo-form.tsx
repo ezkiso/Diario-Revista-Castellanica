@@ -26,6 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { TIPO_ARTICULO_LABELS } from "@/lib/constants";
+import { canOptimizeImage } from "@/lib/image-optimization";
 import { Upload, X } from "lucide-react";
 
 type ArticuloFormProps = {
@@ -167,6 +168,7 @@ export function ArticuloForm({ articulo }: ArticuloFormProps) {
             <div className="relative aspect-video bg-muted rounded-lg overflow-hidden">
               <Image
                 src={imagenUrl}
+                unoptimized={!canOptimizeImage(imagenUrl)}
                 alt="Imagen destacada"
                 fill
                 className="object-contain"

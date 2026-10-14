@@ -7,7 +7,13 @@ import "./globals.css";
 
 import { Toaster } from "@/components/ui/toaster";
 import { OrganizationJsonLd } from "@/components/seo/article-jsonld";
-import { SITE_NAME, SITE_DESCRIPTION, SITE_URL, NAV_LINKS } from "@/lib/constants";
+import {
+  SITE_NAME,
+  SITE_DESCRIPTION,
+  SITE_URL,
+  SITE_OG_IMAGE,
+  NAV_LINKS,
+} from "@/lib/constants";
 
 const serif = Lora({
   subsets: ["latin"],
@@ -22,8 +28,6 @@ const sans = Inter({
   display: "swap",
   preload: true,
 });
-
-const OG_IMAGE = `${SITE_URL}/images/og-image.png`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -46,7 +50,13 @@ export const metadata: Metadata = {
     description: SITE_DESCRIPTION,
     siteName: SITE_NAME,
     locale: "es_CL",
-    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: SITE_NAME }],
+    images: [{ url: SITE_OG_IMAGE, width: 1200, height: 630, alt: SITE_NAME }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    images: [SITE_OG_IMAGE],
   },
   robots: {
     index: true,

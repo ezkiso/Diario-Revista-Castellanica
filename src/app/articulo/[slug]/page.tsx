@@ -12,9 +12,11 @@ import { ArticleContent } from "@/components/articles/article-content";
 import { Badge } from "@/components/ui/badge";
 import { BackButton } from "@/components/ui/back-button";
 import { getArticleBySlug, getRelatedArticles } from "@/lib/articles";
+import { canOptimizeImage } from "@/lib/image-optimization";
 import {
   PLACEHOLDER_IMAGE,
   SITE_NAME,
+  SITE_OG_IMAGE,
   SITE_URL,
   TIPO_ARTICULO_LABELS,
 } from "@/lib/constants";
@@ -38,8 +40,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: "article",
       publishedTime: fechaPublicacion.toISOString(),
       authors: [article.autor.nombre],
-      images: article.imagenDestacada ? [article.imagenDestacada] : undefined,
+      images: [article.imagenDestacada || SITE_OG_IMAGE],
       url,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.titulo,
+      description: article.resumen,
+      images: [article.imagenDestacada || SITE_OG_IMAGE],
     },
     alternates: { canonical: url },
   };
@@ -90,6 +98,7 @@ export default async function ArticuloPage({ params }: Props) {
         <div className="relative aspect-[16/9] mb-8 rounded overflow-hidden">
           <Image
             src={imageSrc}
+            unoptimized={!canOptimizeImage(imageSrc)}
             alt={article.titulo}
             fill
             className="object-contain"

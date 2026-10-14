@@ -24,7 +24,14 @@ export function sanitizeHtml(dirty: string): string {
     allowedTags: ALLOWED_TAGS,
     allowedAttributes: {
       a: ["href", "target", "rel", "class"],
-      img: ["src", "alt", "class"],
+      img: ["src", "alt", "class", "loading", "decoding"],
+    },
+    transformTags: {
+      img: sanitize.simpleTransform(
+        "img",
+        { loading: "lazy", decoding: "async" },
+        true
+      ),
     },
   });
 }

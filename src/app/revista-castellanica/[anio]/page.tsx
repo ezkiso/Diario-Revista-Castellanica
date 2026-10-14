@@ -7,7 +7,8 @@ import { notFound } from "next/navigation";
 import { ArticleContent } from "@/components/articles/article-content";
 import { BackButton } from "@/components/ui/back-button";
 import { getRevistaByAnio } from "@/lib/revistas";
-import { SITE_NAME, SITE_URL } from "@/lib/constants";
+import { SITE_NAME, SITE_OG_IMAGE, SITE_URL } from "@/lib/constants";
+import { canOptimizeImage } from "@/lib/image-optimization";
 
 type Props = { params: Promise<{ anio: string }> };
 
@@ -22,8 +23,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: revista.nombre,
       description: revista.descripcion,
-      images: revista.portada ? [revista.portada] : undefined,
+      images: [revista.portada || SITE_OG_IMAGE],
       url: `${SITE_URL}/revista-castellanica/${revista.anio}`,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: revista.nombre,
+      description: revista.descripcion,
+      images: [revista.portada || SITE_OG_IMAGE],
     },
   };
 }
@@ -51,6 +58,7 @@ export default async function RevistaAnioPage({ params }: Props) {
             <div className="relative aspect-[3/4] max-w-[240px] border shadow-md">
               <Image
                 src={revista.portada}
+                unoptimized={!canOptimizeImage(revista.portada)}
                 alt={`Portada ${revista.nombre}`}
                 fill
                 className="object-contain"
@@ -90,6 +98,7 @@ export default async function RevistaAnioPage({ params }: Props) {
                     <div className="relative aspect-video max-w-lg mb-6 rounded overflow-hidden">
                       <Image
                         src={item.imagen}
+                        unoptimized={!canOptimizeImage(item.imagen)}
                         alt=""
                         fill
                         className="object-contain"

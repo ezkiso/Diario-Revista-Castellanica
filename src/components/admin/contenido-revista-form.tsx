@@ -15,6 +15,7 @@ const RichTextEditor = dynamic(
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { canOptimizeImage } from "@/lib/image-optimization";
 import { Upload, X } from "lucide-react";
 
 export function ContenidoRevistaForm({ revistaId }: { revistaId: string }) {
@@ -104,6 +105,7 @@ export function ContenidoRevistaForm({ revistaId }: { revistaId: string }) {
             <div className="relative aspect-video bg-muted rounded-lg overflow-hidden">
               <Image
                 src={imagenUrl}
+                unoptimized={!canOptimizeImage(imagenUrl)}
                 alt="Imagen del contenido"
                 fill
                 className="object-contain"

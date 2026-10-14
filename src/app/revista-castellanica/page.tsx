@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getPublishedRevistas } from "@/lib/revistas";
 import { SITE_NAME } from "@/lib/constants";
+import { canOptimizeImage } from "@/lib/image-optimization";
 
 export const metadata: Metadata = {
   title: "Revista Castellánica",
@@ -40,6 +41,7 @@ export default async function RevistaIndexPage() {
                 {revista.portada ? (
                   <Image
                     src={revista.portada}
+                    unoptimized={!canOptimizeImage(revista.portada)}
                     alt={`Portada ${revista.nombre}`}
                     fill
                     className="object-contain"

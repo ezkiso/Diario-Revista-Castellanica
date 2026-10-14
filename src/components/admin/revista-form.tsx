@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
+import { canOptimizeImage } from "@/lib/image-optimization";
 import { Upload, X } from "lucide-react";
 
 type RevistaFormProps = {
@@ -138,6 +139,7 @@ export function RevistaForm({ revista }: RevistaFormProps) {
             <div className="relative aspect-[2/3] bg-muted rounded-lg overflow-hidden">
               <Image
                 src={portadaUrl}
+                unoptimized={!canOptimizeImage(portadaUrl)}
                 alt="Portada de revista"
                 fill
                 className="object-contain"

@@ -4,6 +4,7 @@ export const SITE_NAME = "Mal Sentados";
 export const SITE_DESCRIPTION =
   "Proyecto creado y autogestionado por estudiantes de la carrera de Pedagogía en Castellano de la Universidad de La Frontera.";
 export const SITE_URL = process.env.AUTH_URL ?? "https://diario-revista-castellanica.vercel.app";
+export const SITE_OG_IMAGE = `${SITE_URL}/images/og-image.png`;
 
 export const TIPO_ARTICULO_LABELS: Record<TipoArticulo, string> = {
   CONVERSACIONES: "Conversaciones",

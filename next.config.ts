@@ -7,7 +7,6 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    unoptimized: true, // Deshabilitar optimización globalmente para evitar timeouts con Vercel Blob
     remotePatterns: [
       // Vercel Blob (tus imágenes subidas)
       {

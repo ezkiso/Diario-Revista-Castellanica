@@ -6,6 +6,7 @@ import { memo } from "react";
 import type { TipoArticulo } from "@prisma/client";
 import { Badge } from "@/components/ui/badge";
 import { PLACEHOLDER_IMAGE, TIPO_ARTICULO_LABELS } from "@/lib/constants";
+import { canOptimizeImage } from "@/lib/image-optimization";
 
 type HeroArticleProps = {
   slug: string;
@@ -37,6 +38,7 @@ function HeroArticleComponent({
         <Link href={href} className="relative aspect-[16/10] lg:aspect-auto lg:min-h-[400px] block">
           <Image
             src={imageSrc}
+            unoptimized={!canOptimizeImage(imageSrc)}
             alt=""
             fill
             className="object-contain"

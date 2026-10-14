@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { canOptimizeImage } from "@/lib/image-optimization";
 import { Upload, X, Plus, Trash2 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
@@ -261,6 +262,7 @@ export function NuevaRevistaConContenido() {
                 <div className="relative aspect-[2/3] bg-muted rounded-lg overflow-hidden">
                   <Image
                     src={portadaUrl}
+                    unoptimized={!canOptimizeImage(portadaUrl)}
                     alt="Portada de revista"
                     fill
                     className="object-contain"
@@ -394,6 +396,7 @@ export function NuevaRevistaConContenido() {
                   <div className="relative aspect-video bg-muted rounded-lg overflow-hidden">
                     <Image
                       src={contenidoForm.imagen}
+                      unoptimized={!canOptimizeImage(contenidoForm.imagen)}
                       alt="Imagen del contenido"
                       fill
                       className="object-contain"
@@ -512,6 +515,7 @@ export function NuevaRevistaConContenido() {
                   <div className="mt-2 relative max-w-xs max-h-32">
                     <Image
                       src={c.imagen}
+                      unoptimized={!canOptimizeImage(c.imagen)}
                       alt={c.titulo}
                       fill
                       className="rounded-lg object-contain"

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { memo } from "react";
 import type { Revista } from "@prisma/client";
+import { canOptimizeImage } from "@/lib/image-optimization";
 
 type RevistaFeaturedProps = {
   revista: Revista & { _count: { contenidos: number } };
@@ -19,6 +20,7 @@ function RevistaFeaturedComponent({ revista }: RevistaFeaturedProps) {
         {revista.portada ? (
           <Image
             src={revista.portada}
+            unoptimized={!canOptimizeImage(revista.portada)}
             alt={`Portada Revista Castellánica ${revista.anio}`}
             fill
             className="object-contain"

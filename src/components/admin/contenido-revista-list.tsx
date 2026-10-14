@@ -8,6 +8,7 @@ import { EditarContenidoRevistaForm } from "@/components/admin/editar-contenido-
 import { DeleteContenidoButton } from "@/components/admin/delete-contenido-button";
 import { ArticleContent } from "@/components/articles/article-content";
 import { Button } from "@/components/ui/button";
+import { canOptimizeImage } from "@/lib/image-optimization";
 import { Edit2 } from "lucide-react";
 
 type ContenidoRevistaListProps = {
@@ -54,7 +55,7 @@ export function ContenidoRevistaList({ contenidos }: ContenidoRevistaListProps) 
                   alt={c.titulo}
                   fill
                   className="rounded-lg object-contain"
-                  unoptimized
+                  unoptimized={!canOptimizeImage(c.imagen)}
                 />
               </div>
             )}
