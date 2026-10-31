@@ -18,10 +18,13 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "images.unsplash.com",
       },
+      
       // Agrega aquí otros dominios que uses explícitamente
       // { protocol: "https", hostname: "ejemplo.com" },
     ],
+    
   },
+  serverExternalPackages: ["@react-pdf/renderer"],
   // Optimización de rendimiento
   compress: true, // Habilitar compresión gzip
   // Optimización de producción
@@ -87,6 +90,15 @@ const nextConfig: NextConfig = {
           {
             key: "Cache-Control",
             value: "public, max-age=31536000, immutable"
+          }
+        ]
+      },
+      {
+        source: "/api/admin/revistas/:id/pdf",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-store"
           }
         ]
       }

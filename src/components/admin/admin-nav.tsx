@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { LayoutDashboard, FileText, BookOpen, Users, LogOut } from "lucide-react";
@@ -14,18 +14,11 @@ const allLinks = [
   { href: "/admin/usuarios", label: "Usuarios", icon: Users, roles: ["ADMIN"] },
 ];
 
-export function AdminNav() {
+export function AdminNav({ rol }: { rol?: string }) {
   const pathname = usePathname();
-  const { data: session } = useSession();
-  const userRole = session?.user?.rol;
 
-  const links = allLinks.filter(link => {
-    // Si no hay rol, solo mostrar enlaces que no requieren ADMIN
-    if (!userRole) {
-      return !link.roles.includes("ADMIN");
-    }
-    return link.roles.includes(userRole);
-  });
+  // Si por algún motivo no hay rol, se muestran los enlaces de EDITOR
+  const links = allLinks.filter((link) => link.roles.includes(rol ?? "EDITOR"));
 
   return (
     <aside className="w-full md:w-56 shrink-0 border-r bg-muted/30 min-h-[calc(100vh-4rem)] p-4">

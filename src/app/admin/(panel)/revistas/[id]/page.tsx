@@ -34,6 +34,13 @@ export default async function EditarRevistaPage({ params }: Props) {
               Ver edición →
             </Link>
           )}
+          <a
+            href={`/api/admin/revistas/${revista.id}/pdf`}
+            download
+            className="text-sm font-medium border border-ufro-purple text-ufro-purple rounded px-3 py-1.5 hover:bg-ufro-purple hover:text-white transition-colors"
+          >
+            Exportar PDF
+          </a>
           <DeleteRevistaButton id={revista.id} nombre={revista.nombre} />
         </div>
       </div>
