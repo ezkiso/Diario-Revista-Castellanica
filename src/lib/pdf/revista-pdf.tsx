@@ -43,7 +43,11 @@ const s = StyleSheet.create({
   coverTitle: { fontSize: 28, fontWeight: "bold", textAlign: "center", marginBottom: 12 },
   coverEdition: { fontSize: 13, textAlign: "center", marginBottom: 18, color: "#555555" },
   coverImg: { width: "100%", height: 340, objectFit: "contain" },
-  // Presentación
+  // Índice y presentación
+  tocTitle: { fontSize: 20, fontWeight: "bold", marginBottom: 16 },
+  tocRow: { flexDirection: "row", marginBottom: 9 },
+  tocEntry: { flex: 1, fontSize: 10.5, lineHeight: 1.4 },
+  tocPage: { width: 30, textAlign: "right", fontSize: 10.5 },
   introTitle: { fontSize: 16, fontWeight: "bold", marginBottom: 12 },
   // Contenidos
   title: { fontSize: 20, fontWeight: "bold", marginBottom: 4, lineHeight: 1.25 },
@@ -67,15 +71,6 @@ const s = StyleSheet.create({
   liText: { flex: 1 },
   hr: { borderBottomWidth: 0.5, borderBottomColor: "#999999", marginVertical: 10 },
   bodyImg: { width: "100%", height: 220, objectFit: "contain", marginVertical: 8 },
-  pageNumber: {
-    position: "absolute",
-    bottom: 20,
-    left: 0,
-    right: 0,
-    textAlign: "center",
-    fontSize: 9,
-    color: "#777777",
-  },
 });
 
 function Inlines({ inlines }: { inlines: Inline[] }) {
@@ -166,35 +161,68 @@ export type RevistaPdfData = {
 export function RevistaPdf({
   data,
   images,
+  pageNumbers,
 }: {
   data: RevistaPdfData;
   images: Map<string, PdfImage>;
+  pageNumbers: Map<string, number>;
 }) {
   return (
     <Document title={data.nombre} author="Revista Castellanica" creator="Revista Castellanica">
-      {/* 1. Título + portada */}
+      {/* Portada */}
       <Page size={PAGE} style={s.page}>
         <Text style={s.coverTitle}>{data.nombre}</Text>
         <Text style={s.coverEdition}>Edición {data.anio}</Text>
         {data.portada && <PdfImageElement src={data.portada} style={s.coverImg} />}
       </Page>
 
-      {/* 2. Presentación */}
+      {/* Índice */}
+      <Page size={PAGE} style={s.page}>
+        <Text style={s.tocTitle}>Índice</Text>
+        {data.descripcion.trim() && (
+          <View style={s.tocRow} wrap={false}>
+            <Text style={s.tocEntry}>Presentación</Text>
+            <Text style={s.tocPage}>{pageNumbers.get("presentacion") ?? ""}</Text>
+          </View>
+        )}
+        {data.contenidos.map((c) => (
+          <View key={c.id} style={s.tocRow} wrap={false}>
+            <Text style={s.tocEntry}>{c.titulo}</Text>
+            <Text style={s.tocPage}>{pageNumbers.get(c.id) ?? ""}</Text>
+          </View>
+        ))}
+        {data.contenidos.length === 0 && !data.descripcion.trim() && (
+          <Text style={s.p}>Esta revista todavía no tiene contenidos.</Text>
+        )}
+      </Page>
+
+      {/* Presentación */}
       {data.descripcion.trim() && (
         <Page size={PAGE} style={s.page}>
-          <Text style={s.introTitle}>Presentación</Text>
+          <Text
+            style={s.introTitle}
+            render={({ pageNumber }) => {
+              pageNumbers.set("presentacion", pageNumber);
+              return "Presentación";
+            }}
+          />
           <Text style={s.p}>{data.descripcion}</Text>
         </Page>
       )}
 
-      {/* 3. Contenidos: cada uno en página nueva */}
+      {/* Contenidos: cada uno en página nueva */}
       {data.contenidos.map((c) => (
         <Page key={c.id} size={PAGE} style={s.page} wrap>
-          <Text style={s.title}>{c.titulo}</Text>
+          <Text
+            style={s.title}
+            render={({ pageNumber }) => {
+              pageNumbers.set(c.id, pageNumber);
+              return c.titulo;
+            }}
+          />
           <Text style={s.author}>por {c.autor}</Text>
           {c.imagen && <PdfImageElement src={c.imagen} style={s.featuredImg} />}
           <Blocks blocks={c.blocks} images={images} />
-          <Text style={s.pageNumber} render={({ pageNumber }) => `${pageNumber}`} />
         </Page>
       ))}
     </Document>

@@ -1,4 +1,5 @@
 import { renderToBuffer } from "@react-pdf/renderer";
+import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import slugify from "slugify";
 import type { ContenidoRevista } from "@prisma/client";
 import { auth } from "@/auth";
@@ -75,7 +76,27 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
     })),
   };
 
-  const buffer = await renderToBuffer(<RevistaPdf images={images} data={data} />);
+  const pageNumbers = new Map<string, number>();
+  await renderToBuffer(<RevistaPdf images={images} data={data} pageNumbers={pageNumbers} />);
+  const renderedPdf = await renderToBuffer(
+    <RevistaPdf images={images} data={data} pageNumbers={pageNumbers} />
+  );
+  const pdf = await PDFDocument.load(renderedPdf);
+  const pageNumberFont = await pdf.embedFont(StandardFonts.Helvetica);
+  const pages = pdf.getPages();
+  pages.forEach((page, index) => {
+    const label = String(index + 1);
+    const fontSize = 9;
+    const textWidth = pageNumberFont.widthOfTextAtSize(label, fontSize);
+    page.drawText(label, {
+      x: (page.getWidth() - textWidth) / 2,
+      y: 20,
+      size: fontSize,
+      font: pageNumberFont,
+      color: rgb(0.47, 0.47, 0.47),
+    });
+  });
+  const buffer = await pdf.save();
 
   const filename = `${slugify(revista.nombre, { lower: true, strict: true }) || "revista"}-${revista.anio}.pdf`;
   return new Response(new Uint8Array(buffer), {
