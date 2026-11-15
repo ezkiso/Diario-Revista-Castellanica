@@ -76,7 +76,7 @@ export default async function RevistaAnioPage({ params }: Props) {
               {revista.nombre}
             </h1>
             <p className="text-ufro-gold font-semibold mt-1">Edición {revista.anio}</p>
-            <p className="text-muted-foreground mt-4 leading-relaxed">{revista.descripcion}</p>
+            <p className="font-mono text-muted-foreground mt-4 leading-relaxed">{revista.descripcion}</p>
           </div>
         </header>
 

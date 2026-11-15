@@ -13,18 +13,27 @@ import type { PdfImage } from "./images";
 
 const PAGE = "A5";
 const MARGIN = 42; // ~15 mm
-const FONT = "Lora";
+const BODY_FONT = "Redaction 10";
+const SUMMARY_FONT = "Libertinus Mono";
+const TITLE_FONT = "Cormorant Garamond";
 
 const registeredOrigins = new Set<string>();
 export function registerFonts(origin: string) {
   if (registeredOrigins.has(origin)) return;
   Font.register({
-    family: FONT,
+    family: BODY_FONT,
     fonts: [
-      { src: `${origin}/fonts/Lora-Regular.ttf` },
-      { src: `${origin}/fonts/Lora-Bold.ttf`, fontWeight: "bold" },
-      { src: `${origin}/fonts/Lora-Italic.ttf`, fontStyle: "italic" },
-      { src: `${origin}/fonts/Lora-BoldItalic.ttf`, fontWeight: "bold", fontStyle: "italic" },
+      { src: `${origin}/fonts/Redaction10-Regular.ttf` },
+      { src: `${origin}/fonts/Redaction10-Bold.ttf`, fontWeight: "bold" },
+      { src: `${origin}/fonts/Redaction10-Italic.ttf`, fontStyle: "italic" },
+    ],
+  });
+  Font.register({ family: SUMMARY_FONT, src: `${origin}/fonts/LibertinusMono-Regular.ttf` });
+  Font.register({
+    family: TITLE_FONT,
+    fonts: [
+      { src: `${origin}/fonts/CormorantGaramond-Regular.ttf` },
+      { src: `${origin}/fonts/CormorantGaramond-Bold.ttf`, fontWeight: "bold" },
     ],
   });
   Font.registerHyphenationCallback((word) => [word]); // sin cortes de palabra raros
@@ -33,31 +42,32 @@ export function registerFonts(origin: string) {
 
 const s = StyleSheet.create({
   page: {
-    fontFamily: FONT,
+    fontFamily: BODY_FONT,
     padding: MARGIN,
     paddingBottom: MARGIN + 10,
     fontSize: 10.5,
     lineHeight: 1.5,
   },
   // Portada
-  coverTitle: { fontSize: 28, fontWeight: "bold", textAlign: "center", marginBottom: 12 },
+  coverTitle: { fontFamily: TITLE_FONT, fontSize: 28, fontWeight: "bold", textAlign: "center", marginBottom: 12 },
   coverEdition: { fontSize: 13, textAlign: "center", marginBottom: 18, color: "#555555" },
   coverImg: { width: "100%", height: 340, objectFit: "contain" },
   // Índice y presentación
-  tocTitle: { fontSize: 20, fontWeight: "bold", marginBottom: 16 },
+  tocTitle: { fontFamily: TITLE_FONT, fontSize: 20, fontWeight: "bold", marginBottom: 16 },
   tocRow: { flexDirection: "row", marginBottom: 9 },
-  tocEntry: { flex: 1, fontSize: 10.5, lineHeight: 1.4 },
+  tocEntry: { flex: 1, fontFamily: TITLE_FONT, fontSize: 10.5, lineHeight: 1.4 },
   tocPage: { width: 30, textAlign: "right", fontSize: 10.5 },
-  introTitle: { fontSize: 16, fontWeight: "bold", marginBottom: 12 },
+  introTitle: { fontFamily: TITLE_FONT, fontSize: 16, fontWeight: "bold", marginBottom: 12 },
+  summary: { fontFamily: SUMMARY_FONT, textAlign: "justify", marginBottom: 8 },
   // Contenidos
-  title: { fontSize: 20, fontWeight: "bold", marginBottom: 4, lineHeight: 1.25 },
+  title: { fontFamily: TITLE_FONT, fontSize: 20, fontWeight: "bold", marginBottom: 4, lineHeight: 1.25 },
   author: { fontSize: 11, fontStyle: "italic", color: "#555555", marginBottom: 14 },
   featuredImg: { width: "100%", height: 200, objectFit: "contain", marginBottom: 14 },
   p: { textAlign: "justify", marginBottom: 8 },
-  h1: { fontSize: 18, fontWeight: "bold", marginTop: 10, marginBottom: 6 },
-  h2: { fontSize: 15, fontWeight: "bold", marginTop: 10, marginBottom: 6 },
-  h3: { fontSize: 13, fontWeight: "bold", marginTop: 8, marginBottom: 4 },
-  h4: { fontSize: 11, fontWeight: "bold", marginTop: 8, marginBottom: 4 },
+  h1: { fontFamily: TITLE_FONT, fontSize: 18, fontWeight: "bold", marginTop: 10, marginBottom: 6 },
+  h2: { fontFamily: TITLE_FONT, fontSize: 15, fontWeight: "bold", marginTop: 10, marginBottom: 6 },
+  h3: { fontFamily: TITLE_FONT, fontSize: 13, fontWeight: "bold", marginTop: 8, marginBottom: 4 },
+  h4: { fontFamily: TITLE_FONT, fontSize: 11, fontWeight: "bold", marginTop: 8, marginBottom: 4 },
   quote: {
     fontStyle: "italic",
     marginLeft: 16,
@@ -206,7 +216,7 @@ export function RevistaPdf({
               return "Presentación";
             }}
           />
-          <Text style={s.p}>{data.descripcion}</Text>
+          <Text style={s.summary}>{data.descripcion}</Text>
         </Page>
       )}
 

@@ -57,7 +57,7 @@ export default async function RevistaIndexPage() {
                 <h2 className="font-serif text-xl font-bold group-hover:text-ufro-red transition-colors">
                   {revista.nombre}
                 </h2>
-                <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
+                <p className="font-mono text-sm text-muted-foreground mt-1 line-clamp-2">
                   {revista.descripcion}
                 </p>
                 <p className="text-xs text-muted-foreground mt-2">

@@ -2,8 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Redaction 10";
+  src: url("/fonts/Redaction10-Regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Redaction 10";
+  src: url("/fonts/Redaction10-Bold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Redaction 10";
+  src: url("/fonts/Redaction10-Italic.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Libertinus Mono";
+  src: url("/fonts/LibertinusMono-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/CormorantGaramond-Regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/CormorantGaramond-Bold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
 @layer base {
   :root {
+    --font-body: "Redaction 10";
+    --font-serif: "Cormorant Garamond";
+    --font-mono: "Libertinus Mono";
     --background: 40 20% 98%;
     --foreground: 0 0% 10%;
     --card: 0 0% 100%;

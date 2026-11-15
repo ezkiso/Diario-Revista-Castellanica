@@ -91,7 +91,7 @@ export default async function ArticuloPage({ params }: Props) {
         </header>
 
         {/* ── Resumen / Bajada ── */}
-        <p className="text-xl md:text-2xl font-serif text-muted-foreground leading-relaxed border-l-4 border-ufro-red pl-5 mb-8 italic">
+        <p className="font-mono text-xl md:text-2xl text-muted-foreground leading-relaxed border-l-4 border-ufro-red pl-5 mb-8 italic">
           {article.resumen}
         </p>
 

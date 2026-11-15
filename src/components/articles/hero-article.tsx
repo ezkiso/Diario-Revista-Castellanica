@@ -53,7 +53,7 @@ function HeroArticleComponent({
               {titulo}
             </Link>
           </h3>
-          <p className="text-lg text-muted-foreground mb-6 line-clamp-4">{resumen}</p>
+          <p className="font-mono text-lg text-muted-foreground mb-6 line-clamp-4">{resumen}</p>
           <time
             dateTime={fecha.toISOString()}
             className="text-sm text-muted-foreground"

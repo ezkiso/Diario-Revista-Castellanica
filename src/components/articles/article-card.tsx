@@ -51,7 +51,7 @@ function ArticleCardComponent({
             {titulo}
           </Link>
         </h2>
-        <p className="text-sm text-muted-foreground line-clamp-3 mb-3 flex-1">
+        <p className="font-mono text-sm text-muted-foreground line-clamp-3 mb-3 flex-1">
           {resumen}
         </p>
         <time

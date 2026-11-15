@@ -1,7 +1,6 @@
 // src/app/layout.tsx
 
 import type { Metadata } from "next";
-import { Lora, Inter } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
 
@@ -14,20 +13,6 @@ import {
   SITE_OG_IMAGE,
   NAV_LINKS,
 } from "@/lib/constants";
-
-const serif = Lora({
-  subsets: ["latin"],
-  variable: "--font-serif",
-  display: "swap",
-  preload: true,
-});
-
-const sans = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-  display: "swap",
-  preload: true,
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -80,7 +65,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className={`${serif.variable} ${sans.variable} m-0 p-0 border-0 outline-none`}>
+    <html lang="es" className="m-0 p-0 border-0 outline-none">
       <body className="min-h-screen bg-white font-sans antialiased m-0 p-0 border-0 outline-none">
 
         <OrganizationJsonLd />
